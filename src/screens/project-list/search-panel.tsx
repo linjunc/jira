@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:47:42
  * @LastEditors: 林俊丞
- * @LastEditTime: 2021-09-20 20:42:19
+ * @LastEditTime: 2021-09-20 22:11:43
  * @Description: 
  */
 // 外部资源包
@@ -17,6 +17,7 @@ export interface User {
     email: string;
     title: string;
     organization: string;
+    token: string
 }
 interface SearchPanelProps {
     users: User[],

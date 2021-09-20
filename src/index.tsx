@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:21:38
  * @LastEditors: 林俊丞
- * @LastEditTime: 2021-09-20 21:55:39
+ * @LastEditTime: 2021-09-20 22:27:35
  * @Description:  
  */
 import React from 'react';
@@ -11,10 +11,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { loadDevTools } from 'jira-dev-tool'
+import { AppProviders } from './context/index';
 
 loadDevTools(() => ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <AppProviders>
+      <App />
+    </AppProviders>
+    
   </React.StrictMode>,
   document.getElementById('root')
 ))
