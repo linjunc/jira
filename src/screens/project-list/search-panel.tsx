@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:47:42
  * @LastEditors: 林俊丞
- * @LastEditTime: 2021-09-20 17:23:34
+ * @LastEditTime: 2021-09-20 17:49:26
  * @Description: 
  */
 // 外部资源包
@@ -10,7 +10,7 @@ import React from "react"
 // import { useEffect, useState } from "react"
 // 内部资源包
 
-// 定义泛型
+// 定义接口
 export interface User {
     id: string;
     name: string;

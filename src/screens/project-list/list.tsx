@@ -2,12 +2,12 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:47:28
  * @LastEditors: 林俊丞
- * @LastEditTime: 2021-09-20 17:23:29
+ * @LastEditTime: 2021-09-20 17:49:31
  * @Description: 
  */
 import React from "react"
 import { User } from './search-panel';
-// 定义泛型
+// 定义接口
 interface Project {
     id: string;
     name: string;

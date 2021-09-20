@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 14:36:48
  * @LastEditors: 林俊丞
- * @LastEditTime: 2021-09-20 17:42:19
+ * @LastEditTime: 2021-09-20 17:50:03
  * @Description: 
  */
 
@@ -40,7 +40,7 @@ export const useMount = (callback: () => void) => {
 // custom hook
 
 // 后面用泛型来解决
-export const useDebounce = (value: unknown, delay?: number):any => {
+export const useDebounce = <V>(value:V, delay?: number):any => {
     // 设置一个 debouncedValue 值，用于暂存值，以及监控变化
     const [debouncedValue, setDebouncedValue] = useState(value)
     useEffect(() => {
