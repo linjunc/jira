@@ -21,3 +21,50 @@
  npx create-react-app jira --template typescript
 ```
 
+安装 prettier
+
+```js
+yarn add prettier
+```
+
+创建配置文件 
+
+```tsx
+echo {} > .prettierrc.json
+```
+
+自动格式化
+
+```shell
+npx mrm@2 lint-staged
+```
+
+安装 json-server
+
+```shell
+yarn add json-server -D
+```
+
+安装 qs
+
+```shell
+yarn add qs
+```
+
+
+
+
+
+## Mock 方案
+
+1. json
+2. 请求拦截
+3. 本地node 服务器
+4. json-server
+
+配置 `package.json`
+
+```json
+"json-server": "json-server __json_server_mock__/db.json --watch"
+```
+
