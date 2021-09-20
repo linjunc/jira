@@ -9,6 +9,7 @@ export const List = ({ list, users }) => {
             </tr>
         </thead>
         <tbody>
+            {/* 遍历 list 列表 */}
             {
                 list.map(project => <tr key={project.id}>
                     <td>{project.name}</td>
