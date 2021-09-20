@@ -1,9 +1,33 @@
+/*
+ * @Author: 林俊丞
+ * @Date: 2021-09-20 13:47:42
+ * @LastEditors: 林俊丞
+ * @LastEditTime: 2021-09-20 17:23:34
+ * @Description: 
+ */
 // 外部资源包
 import React from "react"
-import { useEffect, useState } from "react"
+// import { useEffect, useState } from "react"
 // 内部资源包
+
+// 定义泛型
+export interface User {
+    id: string;
+    name: string;
+    email: string;
+    title: string;
+    organization: string;
+}
+interface SearchPanelProps {
+    users: User[],
+    param: {
+        name: string,
+        personId: string
+    },
+    setParam: (param: SearchPanelProps['param']) => void
+}
 // SearchPanel 函数组件
-export const SearchPanel = ({users, param, setParam }) => {                           
+export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
     return <form action="">
         <div>
             {/* 添加事件，当输入框变化时调用 useState */}

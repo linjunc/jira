@@ -51,9 +51,11 @@ yarn add json-server -D
 yarn add qs
 ```
 
+安装 ts 版 qs
 
-
-
+```shell
+ yarn add @types/qs -D
+```
 
 ## Mock 方案
 

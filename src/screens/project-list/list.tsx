@@ -1,6 +1,26 @@
+/*
+ * @Author: 林俊丞
+ * @Date: 2021-09-20 13:47:28
+ * @LastEditors: 林俊丞
+ * @LastEditTime: 2021-09-20 17:23:29
+ * @Description: 
+ */
 import React from "react"
+import { User } from './search-panel';
+// 定义泛型
+interface Project {
+    id: string;
+    name: string;
+    personId: string;
+    pin: boolean;
+    organization: string;
+}
 
-export const List = ({ list, users }) => {
+interface ListProps {
+    list: Project[],
+    users: User[]
+}
+export const List = ({ list, users }: ListProps) => {
     return <table>
         <thead>
             <tr>

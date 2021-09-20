@@ -1,3 +1,10 @@
+/*
+ * @Author: 林俊丞
+ * @Date: 2021-09-20 13:46:21
+ * @LastEditors: 林俊丞
+ * @LastEditTime: 2021-09-20 17:35:02
+ * @Description: 
+ */
 // 外部资源包
 import React from "react"
 import { useEffect, useState } from "react"
@@ -7,6 +14,7 @@ import qs from "qs"
 import { List } from "./list"
 import { SearchPanel } from "./search-panel"
 import { cleanObject, useMount, useDebounce } from "utils"
+// 大部分都是运行时才发现的
 // 引入配置文件中的请求地址
 const apiUrl = process.env.REACT_APP_API_URL
 // ProjectListScreen 函数组件
@@ -19,7 +27,7 @@ export const ProjectListScreen = () => {
         personId: ''
     })
     // 通过防抖处理
-    const debounceParam = useDebounce(param, 2000)
+    const debounceParam = useDebounce(param, 200)
     // 人员职位列表
     const [list, setList] = useState([])
     // 监听 param 变化

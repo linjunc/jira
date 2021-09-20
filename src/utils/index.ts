@@ -2,13 +2,11 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 14:36:48
  * @LastEditors: 林俊丞
- * @LastEditTime: 2021-09-20 16:56:20
+ * @LastEditTime: 2021-09-20 17:42:19
  * @Description: 
  */
 
-import {
-    time
-} from "console"
+
 import {
     useEffect,
     useState
@@ -16,10 +14,10 @@ import {
 // 改变对象本身是不好的
 // 处理0的情况 !! 表示转换为 bool值
 
-export const isFalsy = value => value === 0 ? false : !value
+export const isFalsy = (value: unknown) => value === 0 ? false : !value
 // 清除那些 value 值为空的键值对
 // 如果函数里面没有用到 hook，我们可以不写成 hook，直接写函数就好了
-export const cleanObject = (object) => {
+export const cleanObject = (object: object) => {
     const result = {
         ...object
     }
@@ -32,7 +30,7 @@ export const cleanObject = (object) => {
     return result
 }
 // 只在组件挂载的时候调用，只执行一次
-export const useMount = (callback) => {
+export const useMount = (callback: () => void) => {
     useEffect(() => {
         callback()
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -40,7 +38,9 @@ export const useMount = (callback) => {
 }
 // 用于快速的操作，防抖，只执行最后一次
 // custom hook
-export const useDebounce = (value, delay) => {
+
+// 后面用泛型来解决
+export const useDebounce = (value: unknown, delay?: number):any => {
     // 设置一个 debouncedValue 值，用于暂存值，以及监控变化
     const [debouncedValue, setDebouncedValue] = useState(value)
     useEffect(() => {
