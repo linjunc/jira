@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:47:42
  * @LastEditors: 林俊丞
- * @LastEditTime: 2021-09-20 17:49:26
+ * @LastEditTime: 2021-09-20 20:42:19
  * @Description: 
  */
 // 外部资源包
@@ -42,7 +42,7 @@ export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
                 ...param,
                 personId: e.target.value
             })} >
-                <option value={' '} >负责人</option>
+                <option value={''} >负责人</option>
                 {
                     users.map(users => <option key={users.id} value={users.id}>{users.name}</option>)
                 }

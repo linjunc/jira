@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:46:21
  * @LastEditors: 林俊丞
- * @LastEditTime: 2021-09-20 17:35:02
+ * @LastEditTime: 2021-09-20 20:43:19
  * @Description: 
  */
 // 外部资源包
@@ -27,7 +27,7 @@ export const ProjectListScreen = () => {
         personId: ''
     })
     // 通过防抖处理
-    const debounceParam = useDebounce(param, 200)
+    const debounceParam = useDebounce(param, 1000)
     // 人员职位列表
     const [list, setList] = useState([])
     // 监听 param 变化

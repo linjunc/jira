@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 14:36:48
  * @LastEditors: 林俊丞
- * @LastEditTime: 2021-09-20 17:50:03
+ * @LastEditTime: 2021-09-20 20:44:57
  * @Description: 
  */
 
@@ -18,10 +18,13 @@ export const isFalsy = (value: unknown) => value === 0 ? false : !value
 // 清除那些 value 值为空的键值对
 // 如果函数里面没有用到 hook，我们可以不写成 hook，直接写函数就好了
 export const cleanObject = (object: object) => {
-    const result = {
+    interface resultProps {
+        [key: string]: string,
+    }
+    const result: resultProps = {
         ...object
     }
-    Object.keys(result).forEach(key => {
+    Object.keys(result).forEach((key) => {
         const value = result[key]
         if (isFalsy(value)) {
             delete result[key]
@@ -40,7 +43,7 @@ export const useMount = (callback: () => void) => {
 // custom hook
 
 // 后面用泛型来解决
-export const useDebounce = <V>(value:V, delay?: number):any => {
+export const useDebounce = <V>(value: V, delay?: number): any => {
     // 设置一个 debouncedValue 值，用于暂存值，以及监控变化
     const [debouncedValue, setDebouncedValue] = useState(value)
     useEffect(() => {
