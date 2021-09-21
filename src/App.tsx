@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-// import { ProjectListScreen } from 'screens/project-list';
+import { ProjectListScreen } from 'screens/project-list';
 // import { LoginScreen } from './screens/login/index';
 import { useAuth } from './context/auth-context';
 import { AuthenticatedApp } from 'authenticated-app';
@@ -13,8 +13,8 @@ function App() {
       {
         user ? <AuthenticatedApp /> : <UnauthenticatedApp />
       }
-      {/* <LoginScreen />
-      <ProjectListScreen/> */}
+      {/* <LoginScreen /> */}
+      <ProjectListScreen/>
     </div>
   );
 }
