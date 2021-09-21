@@ -57,6 +57,14 @@ yarn add qs
  yarn add @types/qs -D
 ```
 
+安装 emotion
+
+```js
+yarn add @emotion/react @emotion/styled
+```
+
+
+
 ## Mock 方案
 
 1. json

@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 20:46:20
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-21 15:29:17
+ * @LastEditTime: 2021-09-21 17:01:28
  * @Description: 注册表单
  */
 import React, { FormEvent } from 'react'
@@ -11,6 +11,7 @@ import React, { FormEvent } from 'react'
 import { useAuth } from 'context/auth-context';
 // 引入组件库
 import { Form, Input, Button } from 'antd'
+import { LongButton } from './index';
 // const apiUrl = process.env.REACT_APP_API_URL
 export const RegisterScreen = () => {
     // 使用 useAuth 自定义 hook，这样我们就能直接的通过调用这个 自定义hook 来获取数据
@@ -30,7 +31,7 @@ export const RegisterScreen = () => {
             <Form.Item name={'password'} rules={[{ required: true, message: '请输入密码' }]}>
                 <Input placeholder={"密码"} type="password" id={"password"} />
             </Form.Item>
-            <Button htmlType={"submit"} type={"primary"}>注册</Button>
+            <LongButton htmlType={"submit"} type={"primary"}>注册</LongButton>
         </Form>
     )
 }
