@@ -4,14 +4,15 @@ import { ProjectListScreen } from './screens/project-list/index';
 import { useAuth } from './context/auth-context';
 import { Button, PageHeader } from "antd";
 import styled from "@emotion/styled";
+import { Row } from './components/lib';
 export const AuthenticatedApp = () => {
     const { logout } = useAuth()
     return <Container>
-        <Header>
-            <HeaderLeft>
-                <h3>Logo</h3>
-                <h3>项目</h3>
-                <h3>用户</h3>
+        <Header between={true}>
+            <HeaderLeft gap={true}>
+                <h2>Logo</h2>
+                <h2>项目</h2>
+                <h2>用户</h2>
             </HeaderLeft>
             <HeaderRight>
                 <Button onClick={logout}>登出</Button>
@@ -31,17 +32,8 @@ const Container = styled.div`
     /* grid-template-columns: 20rem 1fr 20rem; */
     height: 100vh;
 `
-const Header = styled.header`
-    /* grid-area: header; */
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-`
-const HeaderLeft = styled.div`
-    display: flex;
-    align-items: center;
-`
+const Header = styled(Row)``
+const HeaderLeft = styled(Row)``
 const HeaderRight = styled.div`
 `
 const Main = styled.main`
