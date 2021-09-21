@@ -78,3 +78,10 @@ yarn add @emotion/react @emotion/styled
 "json-server": "json-server __json_server_mock__/db.json --watch"
 ```
 
+## Q&A 文档
+
+### 怎么实现页面刷新后仍然是上一次的状态？
+
+通过 `token` 以及本地存储实现，我们在登录时，会将token 存储到本地中，这一步不需要我们手动操作，用的老师的库会自动实现。我们在初始化页面的时候，需要挂载一个 `useMount` 方法进行初始化，在这个函数里，主要进行的是 `token` 令牌的判断，如果存在 `token` 我们就，发送一个请求去获取用户数据 `data`
+
+然后返回 `user` 数据 

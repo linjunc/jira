@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 22:13:13
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-21 14:04:14
+ * @LastEditTime: 2021-09-21 17:32:47
  * @Description: 创建一个 auth 作者的共享数据 context
  */
 import React, { ReactNode } from "react";
@@ -28,6 +28,7 @@ interface AuthForm {
     password: string
 }
 // 定义一个初始化 user 的函数
+// 保持用户登录状态，在组件挂载的时候就调用
 const bootstrapUser = async () => {
     let user = null
     // 从本地取出 token
@@ -47,6 +48,7 @@ const bootstrapUser = async () => {
 // 3. 这里看起来比较复杂其实是因为 ts 需要有严格的类型限制，这里需要对每个函数，值，进行类型设置，所以看起来很复杂
 // 4. 我们通过调用 AuthProvider 方法，来接收一个 node 参数，返回一个 provider 
 // 5. 这样我们只要通过调用这个方法，就能让传入的节点拥有 auth context 的共享数据 
+// 6. 在这个函数里封装了一个useMount方法，当组件挂载时会调用进行初始化页面
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // 设置一个user变量 ，由于user 的类型由初始化的类型而定，但不能是 null ，我们需要进行类型断言
     const [user, setUser] = useState<User | null>(null)
@@ -60,6 +62,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         bootstrapUser().then(setUser)
     })
     // 返回一个 context 容器
+    // 这个组件挂载了一个 
     return <AuthContext.Provider children={children} value={{ user, login, logout, register }} />
 }
 // 包装成一个自定义的 hook ，用来创建一个 AuthContext 容器
