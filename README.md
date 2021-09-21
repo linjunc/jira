@@ -63,6 +63,18 @@ yarn add qs
 yarn add @emotion/react @emotion/styled
 ```
 
+安装 dayjs 处理时间
+
+```shell
+yarn add dayjs
+```
+
+安装新版 `jira-dev-tool`
+
+```shell
+yarn add jira-dev-tool@next
+```
+
 
 
 ## Mock 方案

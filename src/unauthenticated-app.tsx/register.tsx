@@ -2,15 +2,15 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 20:46:20
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-21 17:01:28
+ * @LastEditTime: 2021-09-21 21:00:12
  * @Description: 注册表单
  */
-import React, { FormEvent } from 'react'
+import React from 'react'
 // import { User } from 'screens/project-list/search-panel';
 // import { login } from 'auth-provider';
 import { useAuth } from 'context/auth-context';
 // 引入组件库
-import { Form, Input, Button } from 'antd'
+import { Form, Input} from 'antd'
 import { LongButton } from './index';
 // const apiUrl = process.env.REACT_APP_API_URL
 export const RegisterScreen = () => {

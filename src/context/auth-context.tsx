@@ -2,14 +2,14 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 22:13:13
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-21 17:32:47
+ * @LastEditTime: 2021-09-21 20:59:32
  * @Description: 创建一个 auth 作者的共享数据 context
  */
 import React, { ReactNode } from "react";
 import { useState } from 'react';
 import { User } from "screens/project-list/search-panel";
 import * as auth from 'auth-provider'
-import { register, login, logout } from '../auth-provider';
+// import { register, login, logout } from '../auth-provider';
 import { useMount } from '../utils/index';
 import { http } from "utils/http";
 // 创建一个人员的 context 容器

@@ -2,12 +2,12 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 20:46:20
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-21 17:01:15
+ * @LastEditTime: 2021-09-21 21:00:31
  * @Description: 
  */
-import React, { FormEvent } from 'react'
+import React from 'react'
 import { useAuth } from 'context/auth-context';
-import { Button, Form, Input } from 'antd'
+import { Form, Input } from 'antd'
 import { LongButton } from './index';
 // const apiUrl = process.env.REACT_APP_API_URL
 export const LoginScreen = () => {

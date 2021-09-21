@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 14:36:48
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-21 14:42:01
+ * @LastEditTime: 2021-09-21 20:56:36
  * @Description: 
  */
 
@@ -15,19 +15,20 @@ import {
 // 处理0的情况 !! 表示转换为 bool值
 
 export const isFalsy = (value: unknown) => value === 0 ? false : !value
+export const isVoid = (value: unknown) => value === undefined || value === null || value === ''
 // 清除那些 value 值为空的键值对
 // 如果函数里面没有用到 hook，我们可以不写成 hook，直接写函数就好了
-export const cleanObject = (object: object) => {
-    interface resultProps {
-        [key: string]: string,
-    }
-    const result: resultProps = {
+export const cleanObject = (object: { [key: string]: unknown }) => {
+    // interface resultProps {
+    //     [key: string]: string,
+    // }
+    const result = {
         ...object
     }
     // 通过 key 值遍历，如果没有对应的value值就删除
     Object.keys(result).forEach((key) => {
         const value = result[key]
-        if (isFalsy(value)) {
+        if (isVoid(value)) {
             delete result[key]
         }
     })
@@ -37,6 +38,7 @@ export const cleanObject = (object: object) => {
 export const useMount = (callback: () => void) => {
     useEffect(() => {
         callback()
+        // 依赖项中加入 callback 造成无限循环
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 }

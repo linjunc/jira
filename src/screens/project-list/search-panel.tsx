@@ -1,13 +1,7 @@
-/*
- * @Author: 林俊丞
- * @Date: 2021-09-20 13:47:42
- * @LastEditors: cheng
- * @LastEditTime: 2021-09-21 15:40:05
- * @Description: 
- */
+
 // 外部资源包
 import React from "react"
-import { Input, Select } from 'antd'
+import { Input, Select, Form } from 'antd'
 // import { useEffect, useState } from "react"
 // 内部资源包
 
@@ -32,26 +26,38 @@ interface SearchPanelProps {
 }
 // SearchPanel 函数组件
 export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
-    return <form action="">
-        <div>
+    return <Form style={{ marginBottom: '2rem'}} layout={"inline"} action="">
+        <Form.Item>
             {/* 添加事件，当输入框变化时调用 useState */}
             {/* 实质：通过name值查找 */}
-            <Input type="text" value={param.name} onChange={e => setParam({
-                ...param,
-                name: e.target.value
-            })} />
-            {/* 当下拉框选择内容时，触发onChange事件记录当前的id */}
-            {/* 实质：通过id查找 */}
-            <Select value={param.personId} onChange={value => setParam({
-                ...param,
-                personId: value
-            })} >
+            <Input
+                type="text"
+                placeholder={'项目名'}
+                value={param.name}
+                onChange={e => setParam({
+                    ...param,
+                    name: e.target.value
+                })} />
+        </Form.Item>
+        {/* 当下拉框选择内容时，触发onChange事件记录当前的id */}
+        {/* 实质：通过id查找 */}
+        <Form.Item>
+            <Select
+                value={param.personId}
+                onChange={value => setParam({
+                    ...param,
+                    personId: value
+                })} >
                 {/* 这里的value值一定不能多填 */}
                 <Select.Option value={''} >负责人</Select.Option>
                 {
-                    users.map(users => <Select.Option key={users.id} value={users.id}>{users.name}</Select.Option>)
+                    users.map(users =>
+                        <Select.Option
+                            key={users.id}
+                            value={users.id}>{users.name}
+                        </Select.Option>)
                 }
             </Select>
-        </div>
-    </form>
+        </Form.Item>
+    </Form>
 }

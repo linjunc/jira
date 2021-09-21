@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 export const Row = styled.div<{
+    // 定义css 中使用的遍历，通过 props来传递值
     gap?: number | boolean,
     between?: boolean,
     marginBottom?: number
