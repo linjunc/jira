@@ -1,8 +1,8 @@
 /*
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:46:21
- * @LastEditors: 林俊丞
- * @LastEditTime: 2021-09-20 20:43:19
+ * @LastEditors: cheng
+ * @LastEditTime: 2021-09-21 13:55:44
  * @Description: 
  */
 // 外部资源包
@@ -14,6 +14,7 @@ import qs from "qs"
 import { List } from "./list"
 import { SearchPanel } from "./search-panel"
 import { cleanObject, useMount, useDebounce } from "utils"
+import { useHttp } from '../../utils/http';
 // 大部分都是运行时才发现的
 // 引入配置文件中的请求地址
 const apiUrl = process.env.REACT_APP_API_URL
@@ -30,24 +31,29 @@ export const ProjectListScreen = () => {
     const debounceParam = useDebounce(param, 1000)
     // 人员职位列表
     const [list, setList] = useState([])
+    // 引入一个自定义的 http hook
+    const client = useHttp()
     // 监听 param 变化
     useEffect(() => {
         // 获取假数据 成功 ok 返回 true
         // 采用 qs 来解析 get 请求参数
-        fetch(`${apiUrl}/projects?${qs.stringify(cleanObject(debounceParam))}`).then(async response => {
-            if (response.ok) {
-                // .json 用来转化json对象
-                setList(await response.json())
-            }
-        })
+        client('projects', { data: cleanObject(debounceParam) }).then(setList)
+
+        // fetch(`${apiUrl}/projects?${qs.stringify(cleanObject(debounceParam))}`).then(async response => {
+        //     if (response.ok) {
+        //         // .json 用来转化json对象
+        //         setList(await response.json())
+        //     }
+        // })
     }, [debounceParam])
     // 初始化users，[]只调用一次
     useMount(() => {
-        fetch(`${apiUrl}/users`).then(async response => {
-            if (response.ok) {
-                setUsers(await response.json())
-            }
-        })
+        client('users').then(setUsers)
+        // fetch(`${apiUrl}/users`).then(async response => {
+        //     if (response.ok) {
+        //         setUsers(await response.json())
+        //     }
+        // })
     })
     return <div>
         {/* 通过 props 来传递参数 */}

@@ -1,8 +1,8 @@
 /*
  * @Author: 林俊丞
  * @Date: 2021-09-20 22:13:13
- * @LastEditors: 林俊丞
- * @LastEditTime: 2021-09-20 22:45:38
+ * @LastEditors: cheng
+ * @LastEditTime: 2021-09-21 14:04:14
  * @Description: 创建一个 auth 作者的共享数据 context
  */
 import React, { ReactNode } from "react";
@@ -10,6 +10,8 @@ import { useState } from 'react';
 import { User } from "screens/project-list/search-panel";
 import * as auth from 'auth-provider'
 import { register, login, logout } from '../auth-provider';
+import { useMount } from '../utils/index';
+import { http } from "utils/http";
 // 创建一个人员的 context 容器
 const AuthContext = React.createContext<{
     // 定义泛型
@@ -25,6 +27,20 @@ interface AuthForm {
     username: string,
     password: string
 }
+// 定义一个初始化 user 的函数
+const bootstrapUser = async () => {
+    let user = null
+    // 从本地取出 token
+    const token = auth.getToken()
+    if (token) {
+        // 如果有值，就去发送请求获得 user 信息
+        const data = await http('me', { token })
+        user = data.user
+    }
+    // 返回 user
+    return user
+}
+
 // 在这里我们需要明确 context 的用法
 // 1. 使用 context 下的 provider 来包裹子元素，通过value 值来传递数据给子元素
 // 2. 在这里我们采用的是接收一个 children 的方式，这样传入进来的 children 节点都能够使用到 auth context 中的共享数据
@@ -39,6 +55,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const login = (form: AuthForm) => auth.login(form).then(setUser)
     const register = (form: AuthForm) => auth.register(form).then(setUser)
     const logout = () => auth.logout().then(() => setUser(null))
+    // 当组件挂载时，初始化 user
+    useMount(() => {
+        bootstrapUser().then(setUser)
+    })
     // 返回一个 context 容器
     return <AuthContext.Provider children={children} value={{ user, login, logout, register }} />
 }

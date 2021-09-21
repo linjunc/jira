@@ -14,7 +14,7 @@ function App() {
         user ? <AuthenticatedApp /> : <UnauthenticatedApp />
       }
       {/* <LoginScreen /> */}
-      <ProjectListScreen/>
+      {/* <ProjectListScreen/> */}
     </div>
   );
 }

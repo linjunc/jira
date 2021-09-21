@@ -1,6 +1,7 @@
 // 抽象 http 请求
 import qs from "qs"
 import * as auth from 'auth-provider'
+import { useAuth } from '../context/auth-context';
 // 引入统一路径
 const apiUrl = process.env.REACT_APP_API_URL
 // 定义一个接口 data,token，丰富 RequestInit 类型，RequestInit中没有 token和data
@@ -9,7 +10,7 @@ interface Config extends RequestInit {
     data?: object
 }
 // endpoint 是指请求路径，关于 RequestInit 类型我们需要通过查看 fetch 来看
-export const http = async (endpoint: string, { data, token, headers, ...customConfig }: Config) => {
+export const http = async (endpoint: string, { data, token, headers, ...customConfig }: Config={}) => {
     // 请求配置
     const config = {
         // 默认为 GET 后面的 customConfig 会覆盖这里的 method
@@ -31,20 +32,26 @@ export const http = async (endpoint: string, { data, token, headers, ...customCo
     }
     // axios 可以直接再返回状态不为2xx 时抛出异常
     return window.fetch(`${apiUrl}/${endpoint}`, config)
-    .then(async response => {
-        // 当返回 401 时，退出登录
-        if (response.status === 401) {
-            // 退出登录
-            await auth.logout()
-            // 刷新页面
-            window.location.reload()
-            return Promise.reject({message:'请重新登录'})
-        }
-        const data = await response.json()
-        if(response.ok) {
-            return data
-        }else {
-            throw Promise.reject(data)
-        }
-    })
+        .then(async response => {
+            // 当返回 401 时，退出登录
+            if (response.status === 401) {
+                // 退出登录
+                await auth.logout()
+                // 刷新页面
+                window.location.reload()
+                return Promise.reject({ message: '请重新登录' })
+            }
+            const data = await response.json()
+            if (response.ok) {
+                return data
+            } else {
+                throw Promise.reject(data)
+            }
+        })
+}
+export const useHttp = () => {
+    const { user } = useAuth()
+    // Parameters 在后面会讲到
+    // 先解构数组得到2个值，再将数组解构出来这样可以实现，接收值，而不是数组
+    return (...[endpoint, config]: Parameters<typeof http>) => http(endpoint, { ...config, token:user?.token })
 }
