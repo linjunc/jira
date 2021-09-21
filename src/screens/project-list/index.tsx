@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:46:21
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-21 13:55:44
+ * @LastEditTime: 2021-09-21 15:27:36
  * @Description: 
  */
 // 外部资源包
@@ -38,13 +38,6 @@ export const ProjectListScreen = () => {
         // 获取假数据 成功 ok 返回 true
         // 采用 qs 来解析 get 请求参数
         client('projects', { data: cleanObject(debounceParam) }).then(setList)
-
-        // fetch(`${apiUrl}/projects?${qs.stringify(cleanObject(debounceParam))}`).then(async response => {
-        //     if (response.ok) {
-        //         // .json 用来转化json对象
-        //         setList(await response.json())
-        //     }
-        // })
     }, [debounceParam])
     // 初始化users，[]只调用一次
     useMount(() => {

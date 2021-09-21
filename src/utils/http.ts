@@ -10,7 +10,7 @@ interface Config extends RequestInit {
     data?: object
 }
 // endpoint 是指请求路径，关于 RequestInit 类型我们需要通过查看 fetch 来看
-export const http = async (endpoint: string, { data, token, headers, ...customConfig }: Config={}) => {
+export const http = async (endpoint: string, { data, token, headers, ...customConfig }: Config = {}) => {
     // 请求配置
     const config = {
         // 默认为 GET 后面的 customConfig 会覆盖这里的 method
@@ -53,5 +53,5 @@ export const useHttp = () => {
     const { user } = useAuth()
     // Parameters 在后面会讲到
     // 先解构数组得到2个值，再将数组解构出来这样可以实现，接收值，而不是数组
-    return (...[endpoint, config]: Parameters<typeof http>) => http(endpoint, { ...config, token:user?.token })
+    return (...[endpoint, config]: Parameters<typeof http>) => http(endpoint, { ...config, token: user?.token })
 }

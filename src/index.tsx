@@ -1,16 +1,11 @@
-/*
- * @Author: 林俊丞
- * @Date: 2021-09-20 13:21:38
- * @LastEditors: 林俊丞
- * @LastEditTime: 2021-09-20 22:27:35
- * @Description:  
- */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { loadDevTools } from 'jira-dev-tool'
+// 在 jira-dev-tool 之后
+import 'antd/dist/antd.less'
 import { AppProviders } from './context/index';
 
 loadDevTools(() => ReactDOM.render(
