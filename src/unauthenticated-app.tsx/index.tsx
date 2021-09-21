@@ -10,10 +10,10 @@ export const UnauthenticatedApp = () => {
     return <div style={{ display: "flex", justifyContent: "center" }}>
         <Card>
             {/* 判断登录状态 */}
-            {
+            { 
                 isRegister ? <RegisterScreen /> : <LoginScreen />
             }
-            <Button onClick={() => setIsRegister(!isRegister)}> 切换到{isRegister ? '登录' : '注册'}</Button>
+            <Button onClick={() => setIsRegister(!isRegister)}>切换到{isRegister ? '登录' : '注册'}</Button>
         </Card>
 
     </div>
