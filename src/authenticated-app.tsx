@@ -2,7 +2,7 @@
 import React from "react";
 import { ProjectListScreen } from './screens/project-list/index';
 import { useAuth } from './context/auth-context';
-import { Button } from "antd";
+import { Button, PageHeader } from "antd";
 import styled from "@emotion/styled";
 export const AuthenticatedApp = () => {
     const { logout } = useAuth()
@@ -23,15 +23,16 @@ export const AuthenticatedApp = () => {
         </Main>
     </Container>
 }
+
 // 采用 grid 布局 上下分隔
 const Container = styled.div`
-    /* display: grid; */
+    display: grid;
     grid-template-rows: 6rem 1fr 6rem;
     /* grid-template-columns: 20rem 1fr 20rem; */
     height: 100vh;
 `
 const Header = styled.header`
-    grid-area: header;
+    /* grid-area: header; */
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -44,5 +45,5 @@ const HeaderLeft = styled.div`
 const HeaderRight = styled.div`
 `
 const Main = styled.main`
-grid-area:main;
+/* grid-area:main; */
 `
