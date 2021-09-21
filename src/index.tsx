@@ -15,10 +15,10 @@ import { AppProviders } from './context/index';
 
 loadDevTools(() => ReactDOM.render(
   <React.StrictMode>
+    {/* 采用 provider 来包裹 app，实现全局共享 */}
     <AppProviders>
       <App />
     </AppProviders>
-    
   </React.StrictMode>,
   document.getElementById('root')
 ))

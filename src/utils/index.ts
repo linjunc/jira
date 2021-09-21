@@ -24,6 +24,7 @@ export const cleanObject = (object: object) => {
     const result: resultProps = {
         ...object
     }
+    // 通过 key 值遍历，如果没有对应的value值就删除
     Object.keys(result).forEach((key) => {
         const value = result[key]
         if (isFalsy(value)) {

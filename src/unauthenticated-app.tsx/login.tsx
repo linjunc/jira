@@ -6,10 +6,10 @@
  * @Description: 
  */
 import React, { FormEvent } from 'react'
-import { User } from 'screens/project-list/search-panel';
-import { login } from 'auth-provider';
+// import { User } from 'screens/project-list/search-panel';
+// import { login } from 'auth-provider';
 import { useAuth } from 'context/auth-context';
-const apiUrl = process.env.REACT_APP_API_URL
+// const apiUrl = process.env.REACT_APP_API_URL
 export const LoginScreen = () => {
     const { login, user } = useAuth()
     // 传递两个参数

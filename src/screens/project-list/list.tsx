@@ -3,11 +3,12 @@
  * @Date: 2021-09-20 13:47:28
  * @LastEditors: 林俊丞
  * @LastEditTime: 2021-09-20 17:49:31
- * @Description: 
+ * @Description: List 列表
  */
+// 目前可以不引入这个文件了
 import React from "react"
 import { User } from './search-panel';
-// 定义接口
+// 定义人员类型接口
 interface Project {
     id: string;
     name: string;
@@ -15,11 +16,12 @@ interface Project {
     pin: boolean;
     organization: string;
 }
-
+// 定义函数的接口
 interface ListProps {
     list: Project[],
     users: User[]
 }
+// 人员列表表单
 export const List = ({ list, users }: ListProps) => {
     return <table>
         <thead>
