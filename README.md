@@ -108,6 +108,28 @@ yarn add jira-dev-tool@next
 
 ### 3. 为什么控制台打印 error 总是 null
 
-原因是 Hook 中的事件是异步的，例如 `setState` 是异步的，会先执行打印 `error`
+原因是 Hook 中的事件是异步的，例如 `useState` 是异步的，会先执行打印 `error`
 
 严重问题，error 无法获取
+
+解决！！！！
+
+通过 `then` 的第二个参数，获取到返回错误的 `promise` 对象，然后，再通过 `throw` 抛出这个错误
+
+被外层的 `catch` 接收，注意！！抛出错误中的 `then` 方法是一个异步事件，需要通过 `async` 来解决
+
+```js
+.then(data => {
+    // 成功则处理stat
+    console.log(data);
+    setData(data)
+    // throw new Error('222')
+    return data
+}, async(err) => {
+    console.log('失败');
+    // 卧槽，尼玛的，解决了catch 获取不到错误的问题
+    throw Promise.reject(await err.then())
+})
+```
+
+其他代码不变

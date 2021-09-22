@@ -46,8 +46,8 @@ export const http = async (endpoint: string, { data, token, headers, ...customCo
             if (response.ok) {
                 return data
             } else {
-                console.log(data);
-                throw Promise.reject(data)  
+                throw Promise.reject(data)
+                // throw new Error(data) 
             }
         })
 }
@@ -55,5 +55,6 @@ export const useHttp = () => {
     const { user } = useAuth()
     // Parameters 在后面会讲到
     // 先解构数组得到2个值，再将数组解构出来这样可以实现，接收值，而不是数组
+    // 这是一个箭头函数，接受两个值，一个是 endpoint 一个是 config ，返回的是一个 fetch 对象
     return (...[endpoint, config]: Parameters<typeof http>) => http(endpoint, { ...config, token: user?.token })
 }

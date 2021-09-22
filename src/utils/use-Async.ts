@@ -55,10 +55,16 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
                 // 成功则处理stat
                 console.log(data);
                 setData(data)
+                // throw new Error('222')
                 return data
+            }, async (err) => {
+                console.log('失败');
+                // 卧槽，尼玛的，解决了catch 获取不到错误的问题
+                throw Promise.reject(await err.then())
             })
             .catch(error => {
                 // 错误抛出了，但是接不住
+                console.log(error);
                 setError(error)
                 if (config.throwOnError) {
                     return Promise.reject(error)

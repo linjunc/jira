@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 22:13:13
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-22 21:04:51
+ * @LastEditTime: 2021-09-22 22:40:50
  * @Description: 创建一个 auth 作者的共享数据 context
  */
 import React, { ReactNode } from "react";
@@ -64,14 +64,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // 当组件挂载时，初始化 user
     useMount(() => {
         run(bootstrapUser())
-
     })
     // 当初始化和加载中的时候显示loading
     if (isIdle || isLoading) {
         return <FullPageLoading />
     }
     if (isError) {
-        console.log(error);
         return <FullPageErrorFallback error={error} />
     }
     // 返回一个 context 容器
