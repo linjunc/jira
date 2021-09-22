@@ -2,7 +2,7 @@
 import { LoginScreen } from './login';
 import { RegisterScreen } from './register';
 import { useState } from 'react';
-import { Button, Card, Divider } from 'antd';
+import { Button, Card, Divider, Typography } from 'antd';
 import styled from '@emotion/styled'
 // 引入本地资源
 import logo from 'assets/logo.svg'
@@ -11,10 +11,10 @@ import right from 'assets/right.svg'
 
 export const UnauthenticatedApp = () => {
     // 设置当前登录状态 false
-    const [isRegister, setIsRegister] = useState(false)
+    const [isRegister, setIsRegister] = useState(false);
+    const [error, setError] = useState<Error | null>(null)
     return <Container style={{ display: "flex", justifyContent: "center" }}>
         <Header />
-
         <Background />
         <ShadowCard>
             <Title>
@@ -22,10 +22,12 @@ export const UnauthenticatedApp = () => {
                     isRegister ? '请注册' : "请登录"
                 }
             </Title>
-
+            {
+                error ? <Typography.Text type={"danger"}> {error.message}</Typography.Text> : null
+            }
             {/* 判断登录状态 */}
             {
-                isRegister ? <RegisterScreen /> : <LoginScreen />
+                isRegister ? <RegisterScreen onError={setError}/> : <LoginScreen onError={setError}/>
             }
             <Divider />
             <Button type={'link'} onClick={() => setIsRegister(!isRegister)}>{isRegister ? '已经有账号了？直接登录' : '没有账号？注册新账号'}</Button>

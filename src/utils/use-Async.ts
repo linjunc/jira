@@ -14,10 +14,15 @@ const defaultInitialState: State<null> = {
     data: null,
     error: null
 }
+// 默认配置方案
+const defaultConfig = {
+    throwOnError: false
+}
 // 自定义hook， initialState 接收用户传入的 state
 // D 是传入的泛型
-export const useAsync = <D>(initialState?: State<D>) => {
+export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defaultConfig) => {
     // 设置初始状态
+    const config = {...defaultConfig,initialConfig}
     const [state, setState] = useState<State<D>>({
         // 默认值
         ...defaultInitialState,
@@ -51,9 +56,12 @@ export const useAsync = <D>(initialState?: State<D>) => {
                 setData(data)
                 return data
             })
-            .catch(error => {
-                setError(error)
-                return error
+            .catch(err => {
+                setError(err)
+                if(config.throwOnError) {
+                    return Promise.reject(err)
+                }
+                return err
             })
     }
     // 最终返回一大堆的数据接口

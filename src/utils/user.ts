@@ -1,4 +1,3 @@
-import { Project } from 'screens/project-list/list';
 import { User } from '../screens/project-list/search-panel';
 import { useHttp } from './http';
 import { useEffect } from 'react';

@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:46:21
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-22 15:20:23
+ * @LastEditTime: 2021-09-22 19:47:37
  * @Description: 
  */
 // 外部资源包
@@ -28,8 +28,7 @@ export const ProjectListScreen = () => {
     const debounceParam = useDebounce(param, 1000)
     // 引入自定义的 async hook
     // 不知道怎么解决这里的类型问题
-    const { isLoading, isError, error, data: list } = useProjects(debounceParam)
-    console.log(error);
+    const { isLoading, error, data: list } = useProjects(debounceParam)
 
     const { data: users } = useUsers()
     return <Container>
@@ -37,7 +36,8 @@ export const ProjectListScreen = () => {
         <h1>项目列表</h1>
         <SearchPanel users={users || []} param={param} setParam={setParam} />
         {/* 如果error 采用 antd 组件 */}
-        {isError ? <Typography.Text type={'danger'}>{error?.message}</Typography.Text> : null}
+        {/* 未解决error丢失问题 初步判断是由异步事件引起 */}
+        {error ? <Typography.Text type={'danger'}>{error?.message + '错误'}</Typography.Text> : null}
         <List loading={isLoading} users={users || []} dataSource={list || []} />
     </Container>
 }
