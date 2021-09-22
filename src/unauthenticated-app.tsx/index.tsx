@@ -23,7 +23,7 @@ export const UnauthenticatedApp = () => {
                 }
             </Title>
             {
-                error ? <Typography.Text type={"danger"}> {error.message}</Typography.Text> : null
+                error ? <Typography.Text type={"danger"}> {error?.message}</Typography.Text> : null
             }
             {/* 判断登录状态 */}
             {

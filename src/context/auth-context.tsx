@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 22:13:13
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-21 20:59:32
+ * @LastEditTime: 2021-09-22 21:04:51
  * @Description: 创建一个 auth 作者的共享数据 context
  */
 import React, { ReactNode } from "react";
@@ -12,6 +12,9 @@ import * as auth from 'auth-provider'
 // import { register, login, logout } from '../auth-provider';
 import { useMount } from '../utils/index';
 import { http } from "utils/http";
+import { useAsync } from '../utils/use-Async';
+import { FullPageLoading } from "components/lib";
+import { FullPageErrorFallback } from '../components/lib';
 // 创建一个人员的 context 容器
 const AuthContext = React.createContext<{
     // 定义泛型
@@ -51,7 +54,8 @@ const bootstrapUser = async () => {
 // 6. 在这个函数里封装了一个useMount方法，当组件挂载时会调用进行初始化页面
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // 设置一个user变量 ，由于user 的类型由初始化的类型而定，但不能是 null ，我们需要进行类型断言
-    const [user, setUser] = useState<User | null>(null)
+    // const [user, setUser] = useState<User | null>(null)
+    const { data: user, error, isLoading, isIdle, isError, run, setData: setUser } = useAsync<User | null>()
     // 设置三个函数 登录 注册 登出
     // setUser 是一个简写的方式 原先是：user => setUser(user)
     const login = (form: AuthForm) => auth.login(form).then(setUser)
@@ -59,8 +63,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const logout = () => auth.logout().then(() => setUser(null))
     // 当组件挂载时，初始化 user
     useMount(() => {
-        bootstrapUser().then(setUser)
+        run(bootstrapUser())
+
     })
+    // 当初始化和加载中的时候显示loading
+    if (isIdle || isLoading) {
+        return <FullPageLoading />
+    }
+    if (isError) {
+        console.log(error);
+        return <FullPageErrorFallback error={error} />
+    }
     // 返回一个 context 容器
     // 这个组件挂载了一个 
     return <AuthContext.Provider children={children} value={{ user, login, logout, register }} />

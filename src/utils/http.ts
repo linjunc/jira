@@ -46,7 +46,7 @@ export const http = async (endpoint: string, { data, token, headers, ...customCo
             if (response.ok) {
                 return data
             } else {
-                // response.json() 
+                console.log(data);
                 throw Promise.reject(data)  
             }
         })

@@ -22,7 +22,7 @@ const defaultConfig = {
 // D 是传入的泛型
 export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defaultConfig) => {
     // 设置初始状态
-    const config = {...defaultConfig,initialConfig}
+    const config = { ...defaultConfig, initialConfig }
     const [state, setState] = useState<State<D>>({
         // 默认值
         ...defaultInitialState,
@@ -53,15 +53,17 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
         return promise
             .then(data => {
                 // 成功则处理stat
+                console.log(data);
                 setData(data)
                 return data
             })
-            .catch(err => {
-                setError(err)
-                if(config.throwOnError) {
-                    return Promise.reject(err)
+            .catch(error => {
+                // 错误抛出了，但是接不住
+                setError(error)
+                if (config.throwOnError) {
+                    return Promise.reject(error)
                 }
-                return err
+                return Promise.reject(error)
             })
     }
     // 最终返回一大堆的数据接口

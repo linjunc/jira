@@ -109,3 +109,5 @@ yarn add jira-dev-tool@next
 ### 3. 为什么控制台打印 error 总是 null
 
 原因是 Hook 中的事件是异步的，例如 `setState` 是异步的，会先执行打印 `error`
+
+严重问题，error 无法获取
