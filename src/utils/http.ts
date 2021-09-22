@@ -9,6 +9,7 @@ interface Config extends RequestInit {
     token?: string,
     data?: object
 }
+// 手动配置 http 请求
 // endpoint 是指请求路径，关于 RequestInit 类型我们需要通过查看 fetch 来看
 export const http = async (endpoint: string, { data, token, headers, ...customConfig }: Config = {}) => {
     // 请求配置
