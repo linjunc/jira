@@ -90,6 +90,8 @@ yarn add jira-dev-tool@next
 "json-server": "json-server __json_server_mock__/db.json --watch"
 ```
 
+
+
 ## Q&A 文档
 
 ### 1. 怎么实现页面刷新后仍然是上一次的状态？
@@ -133,3 +135,16 @@ yarn add jira-dev-tool@next
 ```
 
 其他代码不变
+
+### 4. 页面的 title 是如何实现的？
+
+采用自定义的 hook，监听title 的变化
+
+```ts
+export const useDocumentTitle = (title: string) =>{
+    useEffect(() => {
+        document.title = title
+    }, [title])
+}
+```
+

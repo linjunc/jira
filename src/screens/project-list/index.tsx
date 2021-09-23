@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:46:21
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-22 19:47:37
+ * @LastEditTime: 2021-09-23 15:59:12
  * @Description: 
  */
 // 外部资源包
@@ -16,6 +16,7 @@ import styled from '@emotion/styled';
 import { Typography } from "antd"
 import { useProjects } from "utils/project"
 import { useUsers } from '../../utils/user';
+import { useDocumentTitle } from '../../utils/index';
 // 大部分都是运行时才发现的
 // ProjectListScreen 函数组件
 export const ProjectListScreen = () => {
@@ -31,6 +32,8 @@ export const ProjectListScreen = () => {
     const { isLoading, error, data: list } = useProjects(debounceParam)
 
     const { data: users } = useUsers()
+    // title 文字
+    useDocumentTitle('项目列表', false)
     return <Container>
         {/* 通过 props 来传递参数 */}
         <h1>项目列表</h1>

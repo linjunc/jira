@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 14:36:48
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-21 20:56:36
+ * @LastEditTime: 2021-09-23 15:58:56
  * @Description: 
  */
 
@@ -50,7 +50,7 @@ export const useDebounce = <V>(value: V, delay?: number): any => {
     // 设置一个 debouncedValue 值，用于暂存值，以及监控变化
     const [debouncedValue, setDebouncedValue] = useState(value)
     useEffect(() => {
-        // 接收一个定时器，参数为一个函数和延时时间
+        // 接收一个定时器，参数为一个函数和延时时间 
         // 每次value变化，设置一个定时器
         const timeout = setTimeout(() => setDebouncedValue(value), delay)
         // 每次上一个useEffect 的定时器被清除，相当于上一个定时器被卸载了
@@ -59,4 +59,20 @@ export const useDebounce = <V>(value: V, delay?: number): any => {
     }, [value, delay])
     // 返回值
     return debouncedValue
+}
+
+// 添加 title 的 hook
+export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) => {
+    const oldTitle = document.title
+    useEffect(() => {
+        document.title = title
+    }, [title])
+    // 页面卸载时，重新设置为原来的 title
+    useEffect(() => {
+        return () => {
+            if (!keepOnUnmount) {
+                document.title = oldTitle
+            }
+        }
+    })
 }

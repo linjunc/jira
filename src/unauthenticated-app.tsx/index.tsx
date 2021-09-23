@@ -8,19 +8,16 @@ import styled from '@emotion/styled'
 import logo from 'assets/logo.svg'
 import left from 'assets/left.svg'
 import right from 'assets/right.svg'
+import { useDocumentTitle } from '../utils/index';
 
 export const UnauthenticatedApp = () => {
     // 设置当前登录状态 false
     const [isRegister, setIsRegister] = useState(false);
     const [error, setError] = useState<Error | null>(null)
-    return <Container style={{ display: "flex", justifyContent: "center" }}> 
+    useDocumentTitle('jira 任务管理系统')
+    return <Container style={{ display: "flex", justifyContent: "center" }}>
         <Header />
         <Background />
-        <Button onClick={() => {
-            throw new Error('点击抛出一个异常')
-        }}>
-            抛出异常
-        </Button>
         <ShadowCard>
             <Title>
                 {
