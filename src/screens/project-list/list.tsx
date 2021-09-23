@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:47:28
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-23 20:17:11
+ * @LastEditTime: 2021-09-23 23:16:18
  * @Description: List 列表
  */
 // 目前可以不引入这个文件了
@@ -25,11 +25,12 @@ export interface Project {
 interface ListProps extends TableProps<Project> {
     users: User[]
 }
+
 // type PropsType = Omit<ListProps, 'users'>
 // 人员列表表单
 // List 组件中传入的类型就是 TableProps 类型，也就是说，props的类型是tableprops
 export const List = ({ users, ...props }: ListProps) => {
-    return <Table pagination={false} columns={[{
+    return <Table rowKey={"id"} pagination={false} columns={[{
         title: '名称',
         sorter: (a, b) => a.name.localeCompare(b.name),
         render(value, project) {
