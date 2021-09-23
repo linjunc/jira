@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 22:06:17
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-21 13:36:32
+ * @LastEditTime: 2021-09-23 23:35:14
  * @Description: 使用 firebase 服务不需要使用开发者开发
  */
 
@@ -30,7 +30,7 @@ export const login = (data: { username: string; password: string }) => {
     if (response.ok) {
       return handleUserResponse(await response.json());
     } else {
-      return Promise.reject(await response.json());
+      throw Promise.reject(await response.json());
     }
   });
 };
@@ -46,7 +46,8 @@ export const register = (data: { username: string; password: string }) => {
     if (response.ok) {
       return handleUserResponse(await response.json());
     } else {
-      return Promise.reject(await response.json());
+      // 这里需要扔一个错误
+      throw Promise.reject(await response.json());
     }
   });
 };

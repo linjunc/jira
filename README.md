@@ -63,7 +63,7 @@ yarn add qs
 yarn add @emotion/react @emotion/styled
 ```
 
-安装 dayjs 处理时间
+安装 dayjs 处理时间格式 `YYYY-MM-DD`
 
 ```shell
 yarn add dayjs
@@ -141,6 +141,8 @@ yarn add @welldone-software/why-did-you-render
 ```
 
 其他代码不变
+
+同时注意，在 `fetch` 中返回错误，不能用 return 需要用 `throw` ，抛出 promise 错误
 
 ### 4. 页面的不同 title 是如何实现的？
 

@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 20:46:20
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-23 20:24:22
+ * @LastEditTime: 2021-09-23 23:29:54
  * @Description: 
  */
 import React from 'react'
@@ -19,7 +19,7 @@ export const LoginScreen = ({ onError }: { onError: (error: Error) => void }) =>
     const handleSubmit = async(values: { username: string, password: string }) => {
         // 采用 antd 组件库后代码优化
         // 添加 run 后会导致错误不显示，未解决
-        login(values).catch(onError)
+        run(login(values)).catch(onError)
         // 第二种写法
         // try {
         //     await run(login(values))

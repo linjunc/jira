@@ -2,13 +2,13 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:47:28
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-23 23:16:18
+ * @LastEditTime: 2021-09-23 23:29:00
  * @Description: List 列表
  */
 // 目前可以不引入这个文件了
 import React from "react"
 import { User } from './search-panel';
-import { Button, Table, TableProps } from 'antd'
+import { Table, TableProps } from 'antd'
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 // 定义人员类型接口

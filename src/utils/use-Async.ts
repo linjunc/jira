@@ -60,6 +60,7 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
             }, async (err) => {
                 console.log('失败');
                 // 卧槽，尼玛的，解决了catch 获取不到错误的问题
+                // 接收到扔来的错误，再扔一下
                 throw Promise.reject(await err.then())
             })
             .catch(error => {
