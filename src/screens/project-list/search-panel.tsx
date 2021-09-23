@@ -54,7 +54,9 @@ export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
                     users.map(users =>
                         <Select.Option
                             key={users.id}
-                            value={users.id}>{users.name}
+                            // 这里的id 类型不一致导致了 number 和 string 无法匹配
+                            // 把id 强制转化为 string 类型，这个问题在后面会解决
+                            value={String(users.id)}>{users.name}
                         </Select.Option>)
                 }
             </Select>

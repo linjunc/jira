@@ -39,7 +39,7 @@ echo {} > .prettierrc.json
 npx mrm@2 lint-staged
 ```
 
-安装 json-server
+安装 json-server 启动一个 server 服务
 
 ```shell
 yarn add json-server -D
@@ -51,13 +51,13 @@ yarn add json-server -D
 yarn add qs
 ```
 
-安装 ts 版 qs
+安装 ts 版 qs 来处理 post
 
 ```shell
  yarn add @types/qs -D
 ```
 
-安装 emotion
+安装 emotion 采用 CSS in JS
 
 ```js
 yarn add @emotion/react @emotion/styled
@@ -75,7 +75,13 @@ yarn add dayjs
 yarn add jira-dev-tool@next
 ```
 
+利用一个  `why-did-you-render` 库，来显示**什么东西在渲染**
 
+```shell
+yarn add @welldone-software/why-did-you-render
+```
+
+> 在 src 目录下新建一个 `wdyr.ts` 文件，然后在官网找到 `wdyr.js` 的内容，cv，再在 index.tsx 中的第一行引入  
 
 ## Mock 方案
 
