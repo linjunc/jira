@@ -180,3 +180,9 @@ export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) =
 }
 ```
 
+### 5. 为什么采用 Navigate 会无法设置默认跳转呢？
+
+盲猜版本迭代
+
+艹，不要安装 `beta4` 版本，安装 `beta.0` ，第四版中的 `Navigate` 失效了
+

@@ -11,11 +11,11 @@
     "@testing-library/user-event": "^12.1.10",
     "@types/jest": "^26.0.15",
     "@types/node": "^12.0.0",
-    "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "antd": "^4.16.13",
     "craco-less": "^1.20.0",
     "dayjs": "^1.10.7",
+    "history": "^5.0.1",
     "jira-dev-tool": "^1.6.59",
     "nanoid": "^3.1.25",
     "prettier": "^2.4.1",
@@ -23,6 +23,8 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-query": "^3.24.3",
+    "react-router": "^6.0.0-beta.0",
+    "react-router-dom": "^6.0.0-beta.0",
     "react-scripts": "4.0.3",
     "serve": "^12.0.1",
     "typescript": "^4.1.2",
@@ -54,7 +56,8 @@
   },
   "devDependencies": {
     "@types/qs": "^6.9.7",
-    "json-server": "^0.16.3"
+    "@types/react": "^17.0.24",
+    "@types/react-router-dom": "^5.3.0"
   },
   "msw": {
     "workerDirectory": "public"

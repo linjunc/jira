@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 14:36:48
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-23 19:27:20
+ * @LastEditTime: 2021-09-23 21:55:13
  * @Description: 记录一些 自定义 hook
  */
 
@@ -81,3 +81,6 @@ export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) =
         }
     }, [keepOnUnmount, oldTitle])
 }
+
+// 一个重定向路由的方法
+export const resetRoute = () => window.location.href = window.location.origin

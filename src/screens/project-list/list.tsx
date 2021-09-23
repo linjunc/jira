@@ -2,14 +2,15 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:47:28
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-22 15:03:19
+ * @LastEditTime: 2021-09-23 20:17:11
  * @Description: List 列表
  */
 // 目前可以不引入这个文件了
 import React from "react"
 import { User } from './search-panel';
-import {Table, TableProps } from 'antd'
+import { Button, Table, TableProps } from 'antd'
 import dayjs from "dayjs";
+import { Link } from "react-router-dom";
 // 定义人员类型接口
 export interface Project {
     id: string;
@@ -30,8 +31,10 @@ interface ListProps extends TableProps<Project> {
 export const List = ({ users, ...props }: ListProps) => {
     return <Table pagination={false} columns={[{
         title: '名称',
-        dataIndex: 'name',
-        sorter: (a, b) => a.name.localeCompare(b.name)
+        sorter: (a, b) => a.name.localeCompare(b.name),
+        render(value, project) {
+            return <Link to={String(project.id)}>{project.name}</Link>
+        }
     },
     {
         title: '部门',
