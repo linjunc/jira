@@ -136,15 +136,47 @@ yarn add jira-dev-tool@next
 
 其他代码不变
 
-### 4. 页面的 title 是如何实现的？
+### 4. 页面的不同 title 是如何实现的？
 
-采用自定义的 hook，监听title 的变化
+采用自定义的 hook `useDocumentTitle` ，监听title 的变化
 
 ```ts
 export const useDocumentTitle = (title: string) =>{
     useEffect(() => {
         document.title = title
     }, [title])
+}
+```
+
+但是这不是最优的方案，直接这样使用会造成页面退出时获取标题丢失，我们想要的是，当我们退出登录时，标题会到 `jira 平台...` 字样
+
+我们需要将页面中的最开始的那个 `title` 保存起来，也就是 `jira...` 然后，在当前页面被卸载时，改变这个 `title` 
+
+我们可以利用 `hook` 天然的闭包特性来实现，但是这样会造成的问题是，不利于别人阅读我们的代码，闭包还是一个挺难发现的东西，在 `hook` 中
+
+我们可以使用 `useRef` ，它能够帮我们保存变量的最初始状态，也就是 `jira...` ，因此这样也可以解决我们的问题，我们添加多一个 `useEffect` 来监听页面的卸载，当卸载时我们就设置会原先的 `title`
+
+最终版 `useDocumentTitle` 自定义 `hook`
+
+```ts
+// 添加 title 的 hook
+export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) => {
+    // 利用 useRef 自定义 hook 它会一直帮我们保存好这个 title值，不会改变，
+    const oldTitle = useRef(document.title).current
+    // const oldTitle = document.title
+    useEffect(() => {
+        document.title = title
+    }, [title])
+    // 页面卸载时，重新设置为原来的 title
+    useEffect(() => {
+        // 利用闭包不指定依赖得到的永远是旧title ，是代码初次运行时的 oldTitle
+        // 不利于别人阅读
+        return () => {
+            if (!keepOnUnmount) {
+                document.title = oldTitle
+            }
+        }
+    }, [keepOnUnmount, oldTitle])
 }
 ```
 

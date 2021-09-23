@@ -2,14 +2,15 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 14:36:48
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-23 15:58:56
- * @Description: 
+ * @LastEditTime: 2021-09-23 19:27:20
+ * @Description: 记录一些 自定义 hook
  */
 
 
 import {
     useEffect,
-    useState
+    useState,
+    useRef
 } from "react"
 // 改变对象本身是不好的
 // 处理0的情况 !! 表示转换为 bool值
@@ -63,16 +64,20 @@ export const useDebounce = <V>(value: V, delay?: number): any => {
 
 // 添加 title 的 hook
 export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) => {
-    const oldTitle = document.title
+    // 利用 useRef 自定义 hook 它会一直帮我们保存好这个 title值，不会改变，
+    const oldTitle = useRef(document.title).current
+    // const oldTitle = document.title
     useEffect(() => {
         document.title = title
     }, [title])
     // 页面卸载时，重新设置为原来的 title
     useEffect(() => {
+        // 利用闭包不指定依赖得到的永远是旧title ，是代码初次运行时的 oldTitle
+        // 不利于别人阅读
         return () => {
             if (!keepOnUnmount) {
                 document.title = oldTitle
             }
         }
-    })
+    }, [keepOnUnmount, oldTitle])
 }

@@ -14,7 +14,7 @@ export const UnauthenticatedApp = () => {
     // 设置当前登录状态 false
     const [isRegister, setIsRegister] = useState(false);
     const [error, setError] = useState<Error | null>(null)
-    useDocumentTitle('jira 任务管理系统')
+    useDocumentTitle('jira 任务管理系统',false)
     return <Container style={{ display: "flex", justifyContent: "center" }}>
         <Header />
         <Background />
