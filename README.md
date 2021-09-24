@@ -223,3 +223,18 @@ interface IdSelectProps extends Omit<SelectProps, 'value' | "onChange" | "option
 ### 7. 什么时候命名 ts，tsx 文件呢？
 
 当包含模板文件的时候采用 `tsx` 文件，不包含模板代码的时候使用 `ts` 文件，不然会引起误会
+
+### 8. 在代码中出现的 !! 是什么意思呢
+
+```tsx
+onCheckedChange?.(!!num)
+```
+
+例如这里的 `!!num` 
+
+它代表的意思是 `Boolean(num)` 将 `num` 转化成 `boolean` 类型 `true or false`
+
+### 9. 在组件中我们不能使用 hook，那我们如何更改组件状态呢？
+
+我们可以在我们的自定义 hook 中，暴露一个函数，我们通过调用这个函数来实现状态的更新
+

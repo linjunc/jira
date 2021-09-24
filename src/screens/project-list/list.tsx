@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:47:28
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-24 11:00:23
+ * @LastEditTime: 2021-09-24 12:14:39
  * @Description: List 列表
  */
 // 目前可以不引入这个文件了
@@ -11,6 +11,8 @@ import { User } from './search-panel';
 import { Table, TableProps } from 'antd'
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
+import { Pin } from '../../components/pin';
+import { useEditProject } from "utils/project";
 // 定义人员类型接口
 export interface Project {
     id: number;
@@ -30,35 +32,54 @@ interface ListProps extends TableProps<Project> {
 // 人员列表表单
 // List 组件中传入的类型就是 TableProps 类型，也就是说，props的类型是tableprops
 export const List = ({ users, ...props }: ListProps) => {
-    return <Table rowKey={"id"} pagination={false} columns={[{
-        title: '名称',
-        sorter: (a, b) => a.name.localeCompare(b.name),
-        render(value, project) {
-            return <Link to={String(project.id)}>{project.name}</Link>
-        }
-    },
-    {
-        title: '部门',
-        dataIndex: 'organization',
-        sorter: (a, b) => a.name.localeCompare(b.name)
-    },
-    {
-        title: '负责人',
-        render(value, project) {
-            return <span >{users.find(user => user.id === project.personId)?.name || '未知'}</span>
-        },
+    // 引入自定义 hook 中的方法
+    const { mutate } = useEditProject()
+    const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin })
+    return <Table rowKey={"id"} pagination={false} columns={[
+        {
+            title: <Pin checked={true} disabled={true} />,
+            render(value, project) {
+                // 这里需要发送编辑请求
+                return <Pin
+                    checked={project.pin}
+                    // 利用柯里化技术，首先传入 id ,在传入pin ，最后执行 mutate
+                    onCheckedChange={
+                        // mutate({ id: project.id, pin })
+                        pinProject(project.id)
+                    }
+                />
+            }
 
-    },
-    {
-        title: '创建时间',
-        render(value, project) {
-            return <span>
-                {
-                    project.created ? dayjs(project.created).format('YYYY-MM-DD') : '无'
-                }
-            </span>
+        },
+        {
+            title: '名称',
+            sorter: (a, b) => a.name.localeCompare(b.name),
+            render(value, project) {
+                return <Link to={String(project.id)}>{project.name}</Link>
+            }
+        },
+        {
+            title: '部门',
+            dataIndex: 'organization',
+            sorter: (a, b) => a.name.localeCompare(b.name)
+        },
+        {
+            title: '负责人',
+            render(value, project) {
+                return <span >{users.find(user => user.id === project.personId)?.name || '未知'}</span>
+            },
+
+        },
+        {
+            title: '创建时间',
+            render(value, project) {
+                return <span>
+                    {
+                        project.created ? dayjs(project.created).format('YYYY-MM-DD') : '无'
+                    }
+                </span>
+            }
         }
-    }
     ]} {...props} />
 
 }

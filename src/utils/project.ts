@@ -22,3 +22,40 @@ export const useProjects = (param?: Partial<Project>) => {
     }, [param])
     return result
 }
+//  处理收藏的请求
+// 由于 hook 只能在最顶部调用，不能在组件内部调用，因此这里不能传递参数
+export const useEditProject = () => {
+    // 引入两个方法
+    // 这里暴露其他的属性，供后面的使用
+    const { run, ...asyncResult } = useAsync()
+    const client = useHttp()
+    // 编写一个函数
+    const mutate = (params: Partial<Project>) => {
+        run(client(`projects/${params.id}`, {
+            data: params,
+            method: "PATCH"
+        }))
+    }
+    return {
+        mutate,
+        ...asyncResult
+    }
+}
+
+export const useAddProject = () => {
+    // 引入两个方法
+    // 这里暴露其他的属性，供后面的使用
+    const { run, ...asyncResult } = useAsync()
+    const client = useHttp()
+    // 编写一个函数
+    const mutate = (params: Partial<Project>) => {
+        run(client(`projects/${params.id}`, {
+            data: params,
+            method: "POST"
+        }))
+    }
+    return {
+        mutate,
+        ...asyncResult
+    }
+}
