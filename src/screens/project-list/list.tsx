@@ -2,17 +2,18 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:47:28
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-24 16:19:05
+ * @LastEditTime: 2021-09-24 20:04:12
  * @Description: List 列表
  */
 // 目前可以不引入这个文件了
 import React from "react"
 import { User } from './search-panel';
-import { Table, TableProps } from 'antd'
+import { Dropdown, Menu, Table, TableProps } from 'antd'
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 import { Pin } from '../../components/pin';
 import { useEditProject } from "utils/project";
+import { ButtonNoPadding } from '../../components/lib';
 // 定义人员类型接口
 export interface Project {
     id: number;
@@ -26,7 +27,8 @@ export interface Project {
 // 继承自 Table 标签的接口，tableprops 中有着 props 值的类型定义
 interface ListProps extends TableProps<Project> {
     users: User[];
-    refresh?: () => void
+    refresh?: () => void;
+    setProjectModelOpen: (isOpen: boolean) => void
 }
 
 // type PropsType = Omit<ListProps, 'users'>
@@ -79,6 +81,21 @@ export const List = ({ users, ...props }: ListProps) => {
                         project.created ? dayjs(project.created).format('YYYY-MM-DD') : '无'
                     }
                 </span>
+            }
+        },
+        {
+
+            render(value, project) {
+                // overlay 是默认显示的东西,Menu是菜单，下拉菜单
+                return <Dropdown overlay={<Menu>
+                    <Menu.Item key={'edit'}>
+                        <ButtonNoPadding type={'link'} onClick={() => props.setProjectModelOpen(true)}>编辑</ButtonNoPadding>
+                    </Menu.Item>
+                </Menu>}>
+                    <ButtonNoPadding type={"link"}>
+                        ...
+                    </ButtonNoPadding>
+                </Dropdown>
             }
         }
     ]} {...props} />

@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
 import React from "react";
-import { Spin, Typography } from 'antd';
+import { Button, Spin, Typography } from 'antd';
 import { DevTools } from 'jira-dev-tool';
+import { isNamedExportBindings } from 'typescript';
 export const Row = styled.div<{
     // 定义css 中使用的遍历，通过 props来传递值
     gap?: number | boolean,
@@ -36,3 +37,7 @@ export const FullPageErrorFallback = ({ error }: { error: Error | null }) => <Fu
         {error?.message + '111'}
     </Typography.Text>
 </FullPage>
+// 没有边距的 button
+export const ButtonNoPadding = styled(Button)`
+    padding: 0;
+`
