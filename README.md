@@ -262,3 +262,40 @@ export const useMountedRef = () => {
 
 非常重要
 
+### 11. 怎么理解 component composition 这种透传数据的模式
+
+引用官网的一句话
+
+> Context 主要应用场景在于*很多*不同层级的组件需要访问同样一些的数据。请谨慎使用，因为这会使得组件的复用性变差。
+>
+> **如果你只是想避免层层传递一些属性，[组件组合（component composition）](https://zh-hans.reactjs.org/docs/composition-vs-inheritance.html)有时候是一个比 context 更好的解决方案。**
+
+**我们把我们需要用到数据的那个组件直接丢到数据来源的 props 身上** ，然后消费数据，把消费完的组件，也就是要被渲染到页面的内容，通过 `props` 传回来。这就是 `component compositon` ，简单粗暴，我们在原来的地方，直接渲染这个组件即可
+
+例如：我们在 `Page` 组件中需要传递个 `Auth` 组件 `user` 信息，它们之间有很多的深层嵌套
+
+我们可以这么做 （官网例子）
+
+```tsx
+function Page(props) {
+  const user = props.user;
+  const userLink = (
+    <Link href={user.permalink}>
+      <Avatar user={user} size={props.avatarSize} />
+    </Link>
+  );
+  return <PageLayout userLink={userLink} />;
+}
+
+// 现在，我们有这样的组件：
+<Page user={user} avatarSize={avatarSize} />
+// ... 渲染出 ...Page的子组件
+<PageLayout userLink={...} />
+// ... 渲染出 ...PageLayout的子组件
+<NavigationBar userLink={...} />
+// ... 渲染出 ...
+{props.userLink}
+```
+
+这样我们只用传递 `userLink` 即可，
+
