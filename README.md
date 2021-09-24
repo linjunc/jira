@@ -194,3 +194,28 @@ export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) =
 
 艹，不要安装 `beta4` 版本，安装 `beta.0` ，第四版中的 `Navigate` 失效了
 
+### 6. 在采用 antd 自定义组件的时候，如何开放更多的类型呢？
+
+我们可以利用 `React` 自带的方法，获取到组件身上的全部类型
+
+```ts
+type SelectProps = React.ComponentProps<typeof Select>
+```
+
+然后，通过 `extends` 来继承 `SelectProps` 身上的方法
+
+```ts
+interface IdSelectProps extends SelectProps 
+```
+
+但是这样会有类型冲突的问题
+
+![image-20210924105645394](https://ljcimg.oss-cn-beijing.aliyuncs.com/img/image-20210924105645394.png)
+
+因此我们需要排除掉我们在这里使用过的类型，采用 `Omit` 方法
+
+```tsx
+interface IdSelectProps extends Omit<SelectProps, 'value' | "onChange" | "options" | "defaultOptionName">
+```
+
+这样我们定义的类型就能够接收所有的 `props` 了，最后还要解构一下其他的 `props` 噢
