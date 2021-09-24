@@ -1,5 +1,6 @@
 // 一个处理异步请求的 hook
 import { useState } from 'react';
+import { useMountedRef } from 'utils';
 // 一个 State 接口
 interface State<D> {
     error: Error | null;
@@ -29,6 +30,7 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
         // 传入值
         ...initialState
     })
+    const mountedRef = useMountedRef()
     // retry 状态控制，需要通过返回函数的方式来初始化，因为有惰性state
     const [retry, setRetry] = useState(() => () =>{} )
     // 正常响应时的数据处理
@@ -63,7 +65,10 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
             .then(data => {
                 // 成功则处理stat
                 console.log(data);
-                setData(data)
+                // 判断组件状态
+                if(mountedRef.current) {
+                    setData(data)
+                }
                 // throw new Error('222')
                 return data
             }, async (err) => {

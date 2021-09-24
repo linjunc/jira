@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:46:21
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-24 14:06:51
+ * @LastEditTime: 2021-09-24 15:07:00
  * @Description: 
  */
 // 外部资源包
@@ -32,7 +32,6 @@ export const ProjectListScreen = () => {
     return <Container>
         {/* 通过 props 来传递参数 */}
         <h1>项目列表</h1>
-        <Button onClick={retry}>retry</Button>
         <SearchPanel users={users || []} param={param} setParam={setParam} />
         {/* 如果error 采用 antd 组件 */}
         {/* 未解决error丢失问题 初步判断是由异步事件引起 */}

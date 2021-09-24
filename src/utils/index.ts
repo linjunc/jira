@@ -2,10 +2,9 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 14:36:48
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-23 21:55:13
+ * @LastEditTime: 2021-09-24 16:10:55
  * @Description: 记录一些 自定义 hook
  */
-
 
 import {
     useEffect,
@@ -81,6 +80,17 @@ export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) =
         }
     }, [keepOnUnmount, oldTitle])
 }
-
+// 用来返回组件的挂载状态，如果还没挂载或者已经卸载，返回false
+export const useMountedRef = () => {
+    const mountedRef = useRef(false)
+    // 通过 useEffect hook 来监听组件状态 
+    useEffect(() => {
+        mountedRef.current = true
+        return () => {
+            mountedRef.current = false
+        }
+    })
+    return mountedRef
+}
 // 一个重定向路由的方法
 export const resetRoute = () => window.location.href = window.location.origin
