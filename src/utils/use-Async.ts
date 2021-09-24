@@ -1,5 +1,5 @@
 // 一个处理异步请求的 hook
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useMountedRef } from 'utils';
 // 一个 State 接口
 interface State<D> {
@@ -32,22 +32,25 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
     })
     const mountedRef = useMountedRef()
     // retry 状态控制，需要通过返回函数的方式来初始化，因为有惰性state
-    const [retry, setRetry] = useState(() => () =>{} )
+    const [retry, setRetry] = useState(() => () => { })
     // 正常响应时的数据处理
-    const setData = (data: D) => setState({
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const setData = useCallback((data: D) => setState({
         data,
         stat: 'success',
         error: null
-    })
+    }), [])
     // 发生错误时的错误处理
-    const setError = (error: Error) => setState({
+    const setError = useCallback((error: Error) => setState({
         error,
         stat: 'error',
         data: null
-    })
+    }), [])
 
     // run是主入口，触发异步请求
-    const run = (promise: Promise<D>, runConfig?: { retry: () => Promise<D> }) => {
+    // 采用useCallback,只有依赖中的数据发生变化的时候，run才会被重新定义
+    const run = useCallback((promise: Promise<D>, runConfig?: { retry: () => Promise<D> }) => {
         // 如果传入的不是 promise，直接 throw
         if (!promise || !promise.then) {
             throw new Error('请传入 Promise 类型数据')
@@ -58,15 +61,16 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
                 run(runConfig?.retry(), runConfig)
             }
         })
-        // 如果是promise 则设置状态，开始 loading
-        setState({ ...state, stat: 'loading' })
+        // 如果是 promise 则设置状态，开始 loading
+        // 在这里 setState 会造成无限循环
+        setState(prevState => ({ ...prevState, stat: 'loading' }))
         // 返回一个promise对象处理数据        
         return promise
             .then(data => {
                 // 成功则处理stat
                 console.log(data);
                 // 判断组件状态
-                if(mountedRef.current) {
+                if (mountedRef.current) {
                     setData(data)
                 }
                 // throw new Error('222')
@@ -86,7 +90,7 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
                 }
                 return Promise.reject(error)
             })
-    }
+    }, [config.throwOnError, mountedRef, setData, setError])
     // 最终返回一大堆的数据接口
     return {
         isIdle: state.stat === 'idle',

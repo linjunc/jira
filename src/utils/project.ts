@@ -1,5 +1,5 @@
 
-import { useEffect } from "react"
+import { useCallback, useEffect } from "react"
 import { cleanObject } from "utils"
 import { useHttp } from "./http"
 import { useAsync } from "./use-Async"
@@ -12,7 +12,7 @@ export const useProjects = (param?: Partial<Project>) => {
     // 传入的 Project 是导入的一个接口
     const { run, ...result } = useAsync<Project[]>()
     // 提取请求，后面多次调用
-    const fetchProjects = () => client('projects', { data: cleanObject(param || {}) })
+    const fetchProjects = useCallback( () => client('projects', { data: cleanObject(param || {}) }),[client, param])
     // 监听 param 变化
     useEffect(() => {
         // 获取假数据 成功 ok 返回 true
@@ -22,8 +22,8 @@ export const useProjects = (param?: Partial<Project>) => {
         run(fetchProjects(), {
             retry: fetchProjects
         })
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [param])
+        
+    }, [fetchProjects, param, run])
     return result
 }
 //  处理收藏的请求

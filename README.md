@@ -240,3 +240,25 @@ onCheckedChange?.(!!num)
 
 ### 10. 在请求数据返回之前如果页面被卸载了，造成报错如何解决
 
+这个问题的来源是，我们在请求数据的时候，**我们登出了页面**，当前的 `setData` **还没有结束**，当完成时，需要渲染的页面已经不存在了，因此我们**需要判断一下**，页面是否被卸载再来渲染组件
+
+为此我们写了一个自定义的 `hook` 用来判断组件是否被卸载
+
+```tsx
+export const useMountedRef = () => {
+    const mountedRef = useRef(false)
+    // 通过 useEffect hook 来监听组件状态 
+    useEffect(() => {
+        mountedRef.current = true
+        return () => {
+            mountedRef.current = false
+        }
+    })
+    return mountedRef
+}
+```
+
+主要利用了 `useEffect` 的特性，当组件卸载时执行 `return` ，当我们写自定义 hook 的话，如果返回一个函数，非常大概率是需要使用 `useMemo` 或 `useCallback` 
+
+非常重要
+

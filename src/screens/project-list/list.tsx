@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:47:28
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-24 14:08:26
+ * @LastEditTime: 2021-09-24 16:19:05
  * @Description: List 列表
  */
 // 目前可以不引入这个文件了
@@ -82,5 +82,4 @@ export const List = ({ users, ...props }: ListProps) => {
             }
         }
     ]} {...props} />
-
 }

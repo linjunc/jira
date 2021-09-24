@@ -2,6 +2,7 @@
 import qs from "qs"
 import * as auth from 'auth-provider'
 import { useAuth } from '../context/auth-context';
+import { useCallback } from "react";
 // 引入统一路径
 const apiUrl = process.env.REACT_APP_API_URL
 // 定义一个接口 data,token，丰富 RequestInit 类型，RequestInit中没有 token和data
@@ -56,5 +57,5 @@ export const useHttp = () => {
     // Parameters 在后面会讲到
     // 先解构数组得到2个值，再将数组解构出来这样可以实现，接收值，而不是数组
     // 这是一个箭头函数，接受两个值，一个是 endpoint 一个是 config ，返回的是一个 fetch 对象
-    return (...[endpoint, config]: Parameters<typeof http>) => http(endpoint, { ...config, token: user?.token })
+    return useCallback((...[endpoint, config]: Parameters<typeof http>) => http(endpoint, { ...config, token: user?.token }),[user?.token])
 }
