@@ -1,5 +1,5 @@
 // 一个处理异步请求的 hook
-import { useCallback, useState } from 'react';
+import { useCallback, useReducer, useState } from 'react';
 import { useMountedRef } from 'utils';
 // 一个 State 接口
 interface State<D> {
@@ -19,34 +19,37 @@ const defaultInitialState: State<null> = {
 const defaultConfig = {
     throwOnError: false
 }
+// 用这个dispatch 会帮我们判断 mountedRef 组件是否被卸载
+const useSafeDispatch = <T>(dispatch: (...args: T[]) => void) => {
+    const mountedRef = useMountedRef()
+    return useCallback((...args: T[]) => (mountedRef.current ? dispatch(...args) : void 0), [dispatch, mountedRef])
+}
 // 自定义hook， initialState 接收用户传入的 state
 // D 是传入的泛型
 export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defaultConfig) => {
     // 设置初始状态
     const config = { ...defaultConfig, initialConfig }
-    const [state, setState] = useState<State<D>>({
+    const [state, dispatch] = useReducer((state: State<D>, action: Partial<State<D>>) => ({ ...state, ...action }), {
         // 默认值
         ...defaultInitialState,
         // 传入值
         ...initialState
     })
-    const mountedRef = useMountedRef()
+    const safeDispatch = useSafeDispatch(dispatch)
     // retry 状态控制，需要通过返回函数的方式来初始化，因为有惰性state
     const [retry, setRetry] = useState(() => () => { })
     // 正常响应时的数据处理
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const setData = useCallback((data: D) => setState({
+    const setData = useCallback((data: D) => safeDispatch({
         data,
         stat: 'success',
         error: null
-    }), [])
+    }), [safeDispatch])
     // 发生错误时的错误处理
-    const setError = useCallback((error: Error) => setState({
+    const setError = useCallback((error: Error) => safeDispatch({
         error,
         stat: 'error',
         data: null
-    }), [])
+    }), [safeDispatch])
 
     // run是主入口，触发异步请求
     // 采用useCallback,只有依赖中的数据发生变化的时候，run才会被重新定义
@@ -63,16 +66,15 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
         })
         // 如果是 promise 则设置状态，开始 loading
         // 在这里 setState 会造成无限循环
-        setState(prevState => ({ ...prevState, stat: 'loading' }))
+        // 在 reducer 中会合并以前的状态和现在的状态
+        safeDispatch({ stat: 'loading' })
         // 返回一个promise对象处理数据        
         return promise
             .then(data => {
                 // 成功则处理stat
                 console.log(data);
                 // 判断组件状态
-                if (mountedRef.current) {
-                    setData(data)
-                }
+                setData(data)
                 // throw new Error('222')
                 return data
             }, async (err) => {
@@ -90,7 +92,7 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
                 }
                 return Promise.reject(error)
             })
-    }, [config.throwOnError, mountedRef, setData, setError])
+    }, [config.throwOnError, safeDispatch, setData, setError])
     // 最终返回一大堆的数据接口
     return {
         isIdle: state.stat === 'idle',
