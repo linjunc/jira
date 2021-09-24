@@ -11,13 +11,17 @@ export const useProjects = (param?: Partial<Project>) => {
     const client = useHttp()
     // 传入的 Project 是导入的一个接口
     const { run, ...result } = useAsync<Project[]>()
+    // 提取请求，后面多次调用
+    const fetchProjects = () => client('projects', { data: cleanObject(param || {}) })
     // 监听 param 变化
     useEffect(() => {
         // 获取假数据 成功 ok 返回 true
         // 采用 qs 来解析 get 请求参数
         // run 函数需要传入一个 promise 对象
         // client 接受一个 endpoint 请求地址，一个配置对象 config
-        run(client('projects', { data: cleanObject(param || {}) }))
+        run(fetchProjects(), {
+            retry: fetchProjects
+        })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [param])
     return result
@@ -31,7 +35,7 @@ export const useEditProject = () => {
     const client = useHttp()
     // 编写一个函数
     const mutate = (params: Partial<Project>) => {
-        run(client(`projects/${params.id}`, {
+        return run(client(`projects/${params.id}`, {
             data: params,
             method: "PATCH"
         }))

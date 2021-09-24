@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:47:28
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-24 12:14:39
+ * @LastEditTime: 2021-09-24 14:08:26
  * @Description: List 列表
  */
 // 目前可以不引入这个文件了
@@ -25,7 +25,8 @@ export interface Project {
 // 定义函数的接口
 // 继承自 Table 标签的接口，tableprops 中有着 props 值的类型定义
 interface ListProps extends TableProps<Project> {
-    users: User[]
+    users: User[];
+    refresh?: () => void
 }
 
 // type PropsType = Omit<ListProps, 'users'>
@@ -34,7 +35,7 @@ interface ListProps extends TableProps<Project> {
 export const List = ({ users, ...props }: ListProps) => {
     // 引入自定义 hook 中的方法
     const { mutate } = useEditProject()
-    const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin })
+    const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin }).then(props.refresh)
     return <Table rowKey={"id"} pagination={false} columns={[
         {
             title: <Pin checked={true} disabled={true} />,

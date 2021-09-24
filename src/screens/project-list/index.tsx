@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:46:21
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-24 11:26:56
+ * @LastEditTime: 2021-09-24 14:06:51
  * @Description: 
  */
 // 外部资源包
@@ -12,7 +12,7 @@ import { List } from "./list"
 import { SearchPanel } from "./search-panel"
 import { useDebounce } from "utils"
 import styled from '@emotion/styled';
-import { Typography } from "antd"
+import { Button, Typography } from "antd"
 import { useProjects } from "utils/project"
 import { useUsers } from '../../utils/user';
 import { useDocumentTitle } from '../../utils/index';
@@ -27,16 +27,17 @@ export const ProjectListScreen = () => {
     // 通过防抖处理 useDebounce
     // 引入自定义的 async hook
     // 不知道怎么解决这里的类型问题
-    const { isLoading, error, data: list } = useProjects(useDebounce(param, 200))
+    const { isLoading, error, data: list ,retry} = useProjects(useDebounce(param, 200))
     const { data: users } = useUsers()
     return <Container>
         {/* 通过 props 来传递参数 */}
         <h1>项目列表</h1>
+        <Button onClick={retry}>retry</Button>
         <SearchPanel users={users || []} param={param} setParam={setParam} />
         {/* 如果error 采用 antd 组件 */}
         {/* 未解决error丢失问题 初步判断是由异步事件引起 */}
         {error ? <Typography.Text type={'danger'}>{error?.message + '错误'}</Typography.Text> : null}
-        <List loading={isLoading} users={users || []} dataSource={list || []} />
+        <List refresh={retry} loading={isLoading} users={users || []} dataSource={list || []} />
     </Container>
 }
 ProjectListScreen.whyDidYouRender = true

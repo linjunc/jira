@@ -29,6 +29,8 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
         // 传入值
         ...initialState
     })
+    // retry 状态控制，需要通过返回函数的方式来初始化，因为有惰性state
+    const [retry, setRetry] = useState(() => () =>{} )
     // 正常响应时的数据处理
     const setData = (data: D) => setState({
         data,
@@ -41,12 +43,19 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
         stat: 'error',
         data: null
     })
+
     // run是主入口，触发异步请求
-    const run = (promise: Promise<D>) => {
+    const run = (promise: Promise<D>, runConfig?: { retry: () => Promise<D> }) => {
         // 如果传入的不是 promise，直接 throw
         if (!promise || !promise.then) {
             throw new Error('请传入 Promise 类型数据')
         }
+        // 定义重新刷新一次，返回一个有上一次 run 执行时的函数
+        setRetry(() => () => {
+            if (runConfig?.retry) {
+                run(runConfig?.retry(), runConfig)
+            }
+        })
         // 如果是promise 则设置状态，开始 loading
         setState({ ...state, stat: 'loading' })
         // 返回一个promise对象处理数据        
@@ -82,6 +91,8 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
         run,
         setData,
         setError,
+        // retry 被调用重新执行 run，让state 更新
+        retry,
         ...state
     }
 }
