@@ -219,3 +219,7 @@ interface IdSelectProps extends Omit<SelectProps, 'value' | "onChange" | "option
 ```
 
 这样我们定义的类型就能够接收所有的 `props` 了，最后还要解构一下其他的 `props` 噢
+
+### 7. 什么时候命名 ts，tsx 文件呢？
+
+当包含模板文件的时候采用 `tsx` 文件，不包含模板代码的时候使用 `ts` 文件，不然会引起误会

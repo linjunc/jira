@@ -16,10 +16,11 @@ interface IdSelectProps extends Omit<SelectProps, 'value' | "onChange" | "option
  * onChange 只会回调 number 和 undefined 类型
  * @return {*}
  */
-export const IsSelect = (props: IdSelectProps) => {
+export const IdSelect = (props: IdSelectProps) => {
     const { value, onChange, defaultOptionName, options, ...restProps } = props
     return <Select
-        value={toNumber(value)}
+    // 这里设置了value ：0 ，当我们数据还没有返回的时候，它会显示 负责人字样
+        value={options?.length ? toNumber(value) : 0}
         onChange={value => onChange(toNumber(value) || undefined)}
         {...restProps}
     >
