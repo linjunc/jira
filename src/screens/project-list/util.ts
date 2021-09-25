@@ -13,3 +13,16 @@ export const useProjectsSearchParams = () => {
         setParam
     ] as const
 }
+// 采用 url 进行状态管理
+export const useProjectModel = () => {
+    const [{ projectCreate }, setProjectCreate] = useUrlQueryParam([
+        'projectCreate'
+    ])
+    const open = () => setProjectCreate({ projectCreate: true })
+    const close = () => setProjectCreate({ projectCreate: undefined })
+    return {
+        projectModelOpen: projectCreate === 'true',
+        open,
+        close
+    }
+}

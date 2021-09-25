@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:46:21
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-24 20:02:26
+ * @LastEditTime: 2021-09-25 16:02:16
  * @Description: 
  */
 // 外部资源包
@@ -17,14 +17,15 @@ import { useProjects } from "utils/project"
 import { useUsers } from '../../utils/user';
 import { useDocumentTitle } from '../../utils/index';
 // import { useUrlQueryParam } from "utils/url"
-import { useProjectsSearchParams } from './util';
+import { useProjectsSearchParams, useProjectModel } from './util';
 import { Row } from '../../components/lib';
 // 大部分都是运行时才发现的
 // ProjectListScreen 函数组件
-export const ProjectListScreen = (props: { setProjectModelOpen: (isOpen: boolean) => void }) => {
+export const ProjectListScreen = () => {
     // title 文字
     useDocumentTitle('项目列表', false)
     const [param, setParam] = useProjectsSearchParams()
+    const {open} = useProjectModel()
     // 通过防抖处理 useDebounce
     // 引入自定义的 async hook
     // 不知道怎么解决这里的类型问题
@@ -32,9 +33,9 @@ export const ProjectListScreen = (props: { setProjectModelOpen: (isOpen: boolean
     const { data: users } = useUsers()
     return <Container>
         {/* 通过 props 来传递参数 */}
-        <Row between={true}>
+        <Row between={true}> 
             <h1>项目列表</h1>
-            <Button onClick={() => props.setProjectModelOpen(true)}>创建项目</Button>
+            <Button onClick={open}>创建项目</Button>
         </Row>
 
         <SearchPanel users={users || []} param={param} setParam={setParam} />
@@ -42,7 +43,6 @@ export const ProjectListScreen = (props: { setProjectModelOpen: (isOpen: boolean
         {/* 未解决error丢失问题 初步判断是由异步事件引起 */}
         {error ? <Typography.Text type={'danger'}>{error?.message + '错误'}</Typography.Text> : null}
         <List
-            setProjectModelOpen={props.setProjectModelOpen}
             refresh={retry}
             loading={isLoading}
             users={users || []}
