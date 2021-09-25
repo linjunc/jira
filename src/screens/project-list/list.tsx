@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:47:28
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-24 20:04:12
+ * @LastEditTime: 2021-09-25 13:22:34
  * @Description: List 列表
  */
 // 目前可以不引入这个文件了
@@ -14,6 +14,8 @@ import { Link } from "react-router-dom";
 import { Pin } from '../../components/pin';
 import { useEditProject } from "utils/project";
 import { ButtonNoPadding } from '../../components/lib';
+import { useDispatch } from "react-redux";
+import { projectListActions } from './project-list.slice';
 // 定义人员类型接口
 export interface Project {
     id: number;
@@ -28,7 +30,6 @@ export interface Project {
 interface ListProps extends TableProps<Project> {
     users: User[];
     refresh?: () => void;
-    setProjectModelOpen: (isOpen: boolean) => void
 }
 
 // type PropsType = Omit<ListProps, 'users'>
@@ -37,6 +38,7 @@ interface ListProps extends TableProps<Project> {
 export const List = ({ users, ...props }: ListProps) => {
     // 引入自定义 hook 中的方法
     const { mutate } = useEditProject()
+    const dispatch = useDispatch()
     const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin }).then(props.refresh)
     return <Table rowKey={"id"} pagination={false} columns={[
         {
@@ -89,7 +91,7 @@ export const List = ({ users, ...props }: ListProps) => {
                 // overlay 是默认显示的东西,Menu是菜单，下拉菜单
                 return <Dropdown overlay={<Menu>
                     <Menu.Item key={'edit'}>
-                        <ButtonNoPadding type={'link'} onClick={() => props.setProjectModelOpen(true)}>编辑</ButtonNoPadding>
+                        <ButtonNoPadding type={'link'} onClick={() => dispatch(projectListActions.openProjectModel())}>编辑</ButtonNoPadding>
                     </Menu.Item>
                 </Menu>}>
                     <ButtonNoPadding type={"link"}>

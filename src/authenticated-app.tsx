@@ -13,10 +13,11 @@ import { resetRoute } from "utils";
 import { ProjectModel } from './screens/project-list/project-model';
 import { ProjectPopover } from './components/project-popover';
 export const AuthenticatedApp = () => {
-    const [projectModelOpen, setProjectModelOpen] = useState(false)
+    // 将状态迁移到状态管理容器内
+    // const [projectModelOpen, setProjectModelOpen] = useState(false)
     return <Container>
         {/* 弄成组件 */}
-        <PageHeader setProjectModelOpen={setProjectModelOpen} />
+        <PageHeader />
         {/* <Button onClick={() => setProjectModelOpen(true)}>打开</Button> */}
         {/* 人员项目列表 */}
         <Main>
@@ -25,24 +26,24 @@ export const AuthenticatedApp = () => {
             <Router>
                 <Routes>
                     {/* <Route path={'/'} element={<ProjectListScreen />}></Route> */}
-                    <Route path={'/projects'} element={<ProjectListScreen setProjectModelOpen={setProjectModelOpen} />}></Route>
+                    <Route path={'/projects'} element={<ProjectListScreen />}></Route>
                     <Route path={'/projects/:projectId/*'} element={<ProjectScreen />}></Route>
                     {/* 艹，不要安装6 beta4 */}
                     <Navigate to={"/projects"} />
                 </Routes>
             </Router>
         </Main>
-        <ProjectModel projectModelOpen={projectModelOpen} onClose={() => setProjectModelOpen(false)} />
+        <ProjectModel />
     </Container>
 }
 // 采用 router 来实现
-const PageHeader = (props: { setProjectModelOpen: (isOpen: boolean) => void }) => {
+const PageHeader = () => {
     return <Header between={true}>
         <HeaderLeft gap={true}>
             <ButtonNoPadding type={'link'} onClick={resetRoute}>
                 <SoftwareLogo width={'18rem'} color={'rgb(38,132,255)'} />
             </ButtonNoPadding>
-            <ProjectPopover setProjectModelOpen={props.setProjectModelOpen} />
+            <ProjectPopover/>
             <span>用户</span>
         </HeaderLeft>
         <HeaderRight>

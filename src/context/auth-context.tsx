@@ -2,37 +2,29 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 22:13:13
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-24 11:27:11
+ * @LastEditTime: 2021-09-25 14:32:37
  * @Description: 创建一个 auth 作者的共享数据 context
  */
-import React, { ReactNode } from "react";
-// import { useState } from 'react';
+import React, { ReactNode, useCallback } from "react";
 import { User } from "screens/project-list/search-panel";
 import * as auth from 'auth-provider'
-// import { register, login, logout } from '../auth-provider';
 import { useMount } from '../utils/index';
 import { http } from "utils/http";
 import { useAsync } from '../utils/use-Async';
 import { FullPageLoading } from "components/lib";
 import { FullPageErrorFallback } from '../components/lib';
-// 创建一个人员的 context 容器
-const AuthContext = React.createContext<{
-    // 定义泛型
-    user: User | null,
-    register: (form: AuthForm) => Promise<void>,
-    login: (form: AuthForm) => Promise<void>,
-    logout: () => Promise<void>
-} | undefined>(undefined)
-// 设置在 devtools 中的名字
-AuthContext.displayName = 'AuthContext'
+import * as authStore from '../score/auth-slice'
+import { useDispatch, useSelector } from "react-redux";
+import { register, logout, selectUser } from '../score/auth-slice';
+// 删除了原先的context 写法
 // 定义 auth表单的接口
-interface AuthForm {
+export interface AuthForm {
     username: string,
     password: string
 }
 // 定义一个初始化 user 的函数
 // 保持用户登录状态，在组件挂载的时候就调用
-const bootstrapUser = async () => {
+export const bootstrapUser = async () => {
     let user = null
     // 从本地取出 token
     const token = auth.getToken()
@@ -55,15 +47,13 @@ const bootstrapUser = async () => {
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // 设置一个user变量 ，由于user 的类型由初始化的类型而定，但不能是 null ，我们需要进行类型断言
     // const [user, setUser] = useState<User | null>(null)
-    const { data: user, error, isLoading, isIdle, isError, run, setData: setUser } = useAsync<User | null>()
-    // 设置三个函数 登录 注册 登出
-    // setUser 是一个简写的方式 原先是：user => setUser(user)
-    const login = (form: AuthForm) => auth.login(form).then(setUser)
-    const register = (form: AuthForm) => auth.register(form).then(setUser)
-    const logout = () => auth.logout().then(() => setUser(null))
+    const { error, isLoading, isIdle, isError, run } = useAsync<User | null>()
+    // 采用 redux
+    const dispatch: (...args: unknown[]) => Promise<User> = useDispatch()
+    //  删除3个参数定义
     // 当组件挂载时，初始化 user
     useMount(() => {
-        run(bootstrapUser())
+        run(dispatch(authStore.bootstrap()))
     })
     // 当初始化和加载中的时候显示loading
     if (isIdle || isLoading) {
@@ -74,18 +64,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
     // 返回一个 context 容器
     // 这个组件挂载了一个 
-    return <AuthContext.Provider children={children} value={{ user, login, logout, register }} />
+    return <div>
+        {children}
+    </div>;
 }
 // 包装成一个自定义的 hook ，用来创建一个 AuthContext 容器
 // 在调用这个hook 的时候，就相当于在子节点中声明一个 context 
 // 也就是说只要我们调用这个 useAuth 就能获取数据了
 export const useAuth = () => {
-    // 由于在使用 context 时，需要在子节点中声明一下这个 context
-    const context = React.useContext(AuthContext)
-    // 如果这个 context 不存在
-    if (!context) {
-        throw new Error('useAuth必须在 context 中使用')
-    }
+    // 定义 dispatch 类型 返回一个 promise
+    const dispatch: (...args: unknown[]) => Promise<User> = useDispatch()
+    const user = useSelector(selectUser)
+    const login = useCallback((form: AuthForm) => dispatch(authStore.login(form)), [dispatch])
+    const register = useCallback((form: AuthForm) => dispatch(authStore.register(form)), [dispatch])
+    const logout = useCallback(() => dispatch(authStore.logout()), [dispatch])
     // 返回这个 context 数据中心
-    return context
+    return {
+        user,
+        login,
+        register,
+        logout
+    }
 }
