@@ -1,4 +1,4 @@
-import { Button, Divider, List, Popover, Typography } from 'antd';
+import { Divider, List, Popover, Typography } from 'antd';
 import { useProjects } from 'utils/project';
 import styled from '@emotion/styled';
 import { ButtonNoPadding } from './lib';
@@ -7,7 +7,7 @@ import { projectListActions } from 'screens/project-list/project-list.slice';
 export const ProjectPopover = () => {
     const dispatch = useDispatch()
     // 通过这个 hook 来获取 project 列表
-    const { data: projects, isLoading } = useProjects()
+    const { data: projects } = useProjects()
     // 筛选出收藏的项目
     const pinnedProjects = projects?.filter(project => project.pin)
     const content = <ContentContainer>

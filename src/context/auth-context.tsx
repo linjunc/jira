@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 22:13:13
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-25 14:32:37
+ * @LastEditTime: 2021-09-25 14:59:23
  * @Description: 创建一个 auth 作者的共享数据 context
  */
 import React, { ReactNode, useCallback } from "react";
@@ -15,7 +15,7 @@ import { FullPageLoading } from "components/lib";
 import { FullPageErrorFallback } from '../components/lib';
 import * as authStore from '../score/auth-slice'
 import { useDispatch, useSelector } from "react-redux";
-import { register, logout, selectUser } from '../score/auth-slice';
+import { selectUser } from '../score/auth-slice';
 // 删除了原先的context 写法
 // 定义 auth表单的接口
 export interface AuthForm {

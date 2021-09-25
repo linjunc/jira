@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 import React from "react";
 import { Button, Spin, Typography } from 'antd';
 import { DevTools } from 'jira-dev-tool';
-import { isNamedExportBindings } from 'typescript';
 export const Row = styled.div<{
     // 定义css 中使用的遍历，通过 props来传递值
     gap?: number | boolean,
