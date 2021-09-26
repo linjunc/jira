@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:46:21
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-25 16:02:16
+ * @LastEditTime: 2021-09-26 11:00:52
  * @Description: 
  */
 // 外部资源包
@@ -18,7 +18,7 @@ import { useUsers } from '../../utils/user';
 import { useDocumentTitle } from '../../utils/index';
 // import { useUrlQueryParam } from "utils/url"
 import { useProjectsSearchParams, useProjectModel } from './util';
-import { Row } from '../../components/lib';
+import { ErrorBox, Row } from '../../components/lib';
 // 大部分都是运行时才发现的
 // ProjectListScreen 函数组件
 export const ProjectListScreen = () => {
@@ -29,7 +29,7 @@ export const ProjectListScreen = () => {
     // 通过防抖处理 useDebounce
     // 引入自定义的 async hook
     // 不知道怎么解决这里的类型问题
-    const { isLoading, error, data: list, retry } = useProjects(useDebounce(param, 200))
+    const { isLoading, error, data: list} = useProjects(useDebounce(param, 200))
     const { data: users } = useUsers()
     return <Container>
         {/* 通过 props 来传递参数 */}
@@ -41,9 +41,10 @@ export const ProjectListScreen = () => {
         <SearchPanel users={users || []} param={param} setParam={setParam} />
         {/* 如果error 采用 antd 组件 */}
         {/* 未解决error丢失问题 初步判断是由异步事件引起 */}
-        {error ? <Typography.Text type={'danger'}>{error?.message + '错误'}</Typography.Text> : null}
+        <ErrorBox error={error}/>
+        {/* 采用一个组件来解决 */}
+        {/* {error ? <Typography.Text type={'danger'}>{error?.message + '错误'}</Typography.Text> : null} */}
         <List
-            refresh={retry}
             loading={isLoading}
             users={users || []}
             dataSource={list || []}

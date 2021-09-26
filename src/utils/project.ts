@@ -4,27 +4,17 @@ import { cleanObject } from "utils"
 import { useHttp } from "./http"
 import { useAsync } from "./use-Async"
 import { Project } from 'screens/project-list/list'
+import { useQuery } from "react-query"
 
 export const useProjects = (param?: Partial<Project>) => {
     // 引入一个自定义的 http hook
     // 调用 useHttp 返回的是一个 fetch 的 promise 对象
     const client = useHttp()
-    // 传入的 Project 是导入的一个接口
-    const { run, ...result } = useAsync<Project[]>()
-    // 提取请求，后面多次调用
-    const fetchProjects = useCallback( () => client('projects', { data: cleanObject(param || {}) }),[client, param])
-    // 监听 param 变化
-    useEffect(() => {
-        // 获取假数据 成功 ok 返回 true
-        // 采用 qs 来解析 get 请求参数
-        // run 函数需要传入一个 promise 对象
-        // client 接受一个 endpoint 请求地址，一个配置对象 config
-        run(fetchProjects(), {
-            retry: fetchProjects
-        })
-        
-    }, [fetchProjects, param, run])
-    return result
+    // 删除原先的 context 方式，改用 url-query 来实现
+    // 当 param 变化的时候触发 useQuery 重新渲染，我们需要在第一个参数中传入一个数组，数组的第二位传入依赖
+    // 当 param 变化时，会重新发送请求
+    // 只用一行代码
+    return useQuery<Project[]>(['project', param], () => client('projects', { data: param }))
 }
 //  处理收藏的请求
 // 由于 hook 只能在最顶部调用，不能在组件内部调用，因此这里不能传递参数

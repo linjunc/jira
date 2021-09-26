@@ -9,12 +9,13 @@ import logo from 'assets/logo.svg'
 import left from 'assets/left.svg'
 import right from 'assets/right.svg'
 import { useDocumentTitle } from '../utils/index';
+import { ErrorBox } from '../components/lib';
 
 export const UnauthenticatedApp = () => {
     // 设置当前登录状态 false
     const [isRegister, setIsRegister] = useState(false);
     const [error, setError] = useState<Error | null>(null)
-    useDocumentTitle('jira 任务管理系统',false)
+    useDocumentTitle('jira 任务管理系统', false)
     return <Container style={{ display: "flex", justifyContent: "center" }}>
         <Header />
         <Background />
@@ -24,9 +25,7 @@ export const UnauthenticatedApp = () => {
                     isRegister ? '请注册' : "请登录"
                 }
             </Title>
-            {
-                error ? <Typography.Text type={"danger"}> {error?.message}</Typography.Text> : null
-            }
+            <ErrorBox error={error} />
             {/* 判断登录状态 */}
             {
                 isRegister ? <RegisterScreen onError={setError} /> : <LoginScreen onError={setError} />
