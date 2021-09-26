@@ -19,31 +19,34 @@ export const useProjects = (param?: Partial<Project>) => {
 }
 //  处理收藏的请求
 // 由于 hook 只能在最顶部调用，不能在组件内部调用，因此这里不能传递参数
+// 这个函数无限循环了
 export const useEditProject = () => {
     // 引入两个方法
     // 这里暴露其他的属性，供后面的使用
     const client = useHttp()
     const queryClient = useQueryClient()
-    const [searchParams] = useProjectsSearchParams()
-    const queryKey = ['projects', searchParams]
+    // 问题根源在这 9.26，获取searchparam
+    // const [searchParams] = useProjectsSearchParams()
+    // 无限循环
+    // const queryKey = ['projects', searchParams]
     // 实现乐观更新
     return useMutation(
         (params: Partial<Project>) => client(`projects/${params.id}`, {
             method: "PATCH",
             data: params
         }), { // 第二个参数设置刷新
-        onSuccess: () => queryClient.invalidateQueries(queryKey),
-        async onMutate(target) {
-            // 数据列表
-            const previousItems = queryClient.getQueryData(queryKey)
-            queryClient.setQueryData(queryKey, (old?: Project[]) => {
-                return old?.map(project => project.id === target.id ? { ...project, ...target } : project) || []
-            })
-            return { previousItems }
-        },
-        onError(error, newItem, context) {
-            queryClient.setQueryData(queryKey, (context as { previousItems: Project[] }).previousItems)
-        }
+        onSuccess: () => queryClient.invalidateQueries('projects'),
+        // async onMutate(target) {
+        //     // 数据列表
+        //     const previousItems = queryClient.getQueryData(queryKey)
+        //     queryClient.setQueryData(queryKey, (old?: Project[]) => {
+        //         return old?.map(project => project.id === target.id ? { ...project, ...target } : project) || []
+        //     })
+        //     return { previousItems }
+        // },
+        // onError(error, newItem, context) {
+        //     queryClient.setQueryData(queryKey, (context as { previousItems: Project[] }).previousItems)
+        // }
     }
     )
 }
