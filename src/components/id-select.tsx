@@ -4,9 +4,9 @@ import { Raw } from "types";
 type SelectProps = React.ComponentProps<typeof Select>
 // 在 type 中定义公共类型
 interface IdSelectProps extends Omit<SelectProps, 'value' | "onChange" | "options" | "defaultOptionName"> {
-    value: Raw | null | undefined,
+    value?: Raw | null | undefined,
     // onChange 只能传入number
-    onChange: (value?: number) => void,
+    onChange?: (value?: number) => void,
     defaultOptionName?: string,
     options?: { name: string, id: number }[]
 }
@@ -21,7 +21,8 @@ export const IdSelect = (props: IdSelectProps) => {
     return <Select
     // 这里设置了value ：0 ，当我们数据还没有返回的时候，它会显示 负责人字样
         value={options?.length ? toNumber(value) : 0}
-        onChange={value => onChange(toNumber(value) || undefined)}
+        // ES2020 ?. 如果onChange 是 undefined就不执行
+        onChange={value => onChange?.(toNumber(value) || undefined)}
         {...restProps}
     >
         {

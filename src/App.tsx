@@ -15,8 +15,6 @@ function App() {
           user ? <AuthenticatedApp /> : <UnauthenticatedApp />
         }
       </ErrorBoundary>
-
-
     </div>
   );
 }

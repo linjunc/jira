@@ -2,7 +2,7 @@
 import { LoginScreen } from './login';
 import { RegisterScreen } from './register';
 import { useState } from 'react';
-import { Button, Card, Divider, Typography } from 'antd';
+import { Button, Card, Divider } from 'antd';
 import styled from '@emotion/styled'
 // 引入本地资源
 import logo from 'assets/logo.svg'

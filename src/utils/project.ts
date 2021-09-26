@@ -31,20 +31,34 @@ export const useEditProject = () => {
         onSuccess: () => queryClient.invalidateQueries('projects')
     }
     )
-
 }
-
+// 处理添加请求
 export const useAddProject = () => {
     // 引入两个方法
     // 这里暴露其他的属性，供后面的使用
     const client = useHttp()
     const queryClient = useQueryClient()
     return useMutation(
-        (params: Partial<Project>) => client(`projects/${params.id}`, {
+        (params: Partial<Project>) => client(`projects`, {
             method: "POST",
             data: params
         }), { // 第二个参数设置刷新
         onSuccess: () => queryClient.invalidateQueries('projects')
     }
     )
+}
+// 获取项目详情
+export const useProject = (id?: number) => {
+    const client = useHttp()
+    // 第三个参数为配置参数，用来规定一些东西，比如这里就规定了 enable 用来指定 id 必传
+    return useQuery<Project>(
+        ['project', { id }],
+        () => client(`projects/${id}`),
+        {
+            enabled: Boolean(id)
+        } 
+    )
+}
+export const useDeleteProject = () => {
+
 }

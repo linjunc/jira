@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:47:28
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-26 11:17:17
+ * @LastEditTime: 2021-09-26 12:30:29
  * @Description: List 列表
  */
 // 目前可以不引入这个文件了
@@ -38,6 +38,8 @@ export const List = ({ users, ...props }: ListProps) => {
     const { open } = useProjectModel()
     // 引入自定义 hook 中的方法
     const { mutate } = useEditProject()
+    const { startEdit } = useProjectModel()
+    const editProject = (id: number) => () => startEdit(id)
     const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin })
     return <Table rowKey={"id"} pagination={false} columns={[
         {
@@ -88,8 +90,11 @@ export const List = ({ users, ...props }: ListProps) => {
             render(value, project) {
                 // overlay 是默认显示的东西,Menu是菜单，下拉菜单
                 return <Dropdown overlay={<Menu>
-                    <Menu.Item key={'edit'}>
-                        <ButtonNoPadding onClick={open} type={'link'}>编辑</ButtonNoPadding>
+                    <Menu.Item onClick={editProject(project.id)} key={'edit'}>
+                        <ButtonNoPadding  type={'link'}>编辑</ButtonNoPadding>
+                    </Menu.Item>
+                    <Menu.Item key={'delete'}>
+                        <ButtonNoPadding onClick={open} type={'link'}>删除</ButtonNoPadding>
                     </Menu.Item>
                 </Menu>}>
                     <ButtonNoPadding type={"link"}>

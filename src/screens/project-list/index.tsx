@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:46:21
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-26 11:00:52
+ * @LastEditTime: 2021-09-26 13:46:52
  * @Description: 
  */
 // 外部资源包
@@ -12,7 +12,7 @@ import { List } from "./list"
 import { SearchPanel } from "./search-panel"
 import { useDebounce } from "utils"
 import styled from '@emotion/styled';
-import { Button, Typography } from "antd"
+import { Button } from "antd"
 import { useProjects } from "utils/project"
 import { useUsers } from '../../utils/user';
 import { useDocumentTitle } from '../../utils/index';
@@ -51,7 +51,6 @@ export const ProjectListScreen = () => {
         />
     </Container>
 }
-ProjectListScreen.whyDidYouRender = true
 const Container = styled.div`
     padding: 3.2rem;
 `
