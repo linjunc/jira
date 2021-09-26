@@ -48,7 +48,7 @@ export const ProjectModel = () => {
                         <Form.Item label={"负责人"} name={'personId'}>
                             <UserSelect defaultOptionName={'负责人'} />
                         </Form.Item>
-                        <Form.Item  >
+                        <Form.Item style={{ textAlign: "right" }} >
                             {/* 点击提交触发onFinish方法 */}
                             <Button loading={mutateLoading} type={"primary"} htmlType={"submit"} >提交</Button>
                         </Form.Item>

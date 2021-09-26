@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 14:36:48
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-24 16:10:55
+ * @LastEditTime: 2021-09-26 14:53:47
  * @Description: 记录一些 自定义 hook
  */
 
@@ -92,5 +92,22 @@ export const useMountedRef = () => {
     })
     return mountedRef
 }
+/**
+ * 传入一个对象，和键集合，返回对应的对象中的键值对
+ * @param obj
+ * @param keys
+ */
+export const subset = <
+    O extends { [key in string]: unknown },
+    K extends keyof O
+>(
+    obj: O,
+    keys: K[]
+) => {
+    const filteredEntries = Object.entries(obj).filter(([key]) =>
+        keys.includes(key as K)
+    );
+    return Object.fromEntries(filteredEntries) as Pick<O, K>;
+};
 // 一个重定向路由的方法
 export const resetRoute = () => window.location.href = window.location.origin

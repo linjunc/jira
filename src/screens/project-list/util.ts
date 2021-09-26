@@ -31,7 +31,6 @@ export const useProjectModel = () => {
     const close = () => {
         setEditingProjectId({ editingProjectId: undefined });
         setProjectCreate({ projectCreate: undefined });
-        // console.log("projectCreate" + projectCreate);
     }
     return {
         projectModelOpen: projectCreate === 'true' || Boolean(editingProjectId),

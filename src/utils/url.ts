@@ -21,8 +21,7 @@ export const useUrlQueryParam = <K extends string>(keys: K[]) => {
                 return { ...prev, [key]: searchParams.get(key) || '' }
                 // 传入的是一个 key 类型在 K 中值为 string 的对象
             }, {} as { [key in K]: string }),
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-            [searchParams]
+            [keys, searchParams]
         ),
         // 键值限定在我们设置的范围之内
         (params: Partial<{ [key in K]: unknown }>) => {

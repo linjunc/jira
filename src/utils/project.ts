@@ -5,6 +5,7 @@ import { useHttp } from "./http"
 import { useAsync } from "./use-Async"
 import { Project } from 'screens/project-list/list'
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useProjectsSearchParams } from '../screens/project-list/util';
 
 export const useProjects = (param?: Partial<Project>) => {
     // 引入一个自定义的 http hook
@@ -23,12 +24,26 @@ export const useEditProject = () => {
     // 这里暴露其他的属性，供后面的使用
     const client = useHttp()
     const queryClient = useQueryClient()
+    const [searchParams] = useProjectsSearchParams()
+    const queryKey = ['projects', searchParams]
+    // 实现乐观更新
     return useMutation(
         (params: Partial<Project>) => client(`projects/${params.id}`, {
             method: "PATCH",
             data: params
         }), { // 第二个参数设置刷新
-        onSuccess: () => queryClient.invalidateQueries('projects')
+        onSuccess: () => queryClient.invalidateQueries(queryKey),
+        async onMutate(target) {
+            // 数据列表
+            const previousItems = queryClient.getQueryData(queryKey)
+            queryClient.setQueryData(queryKey, (old?: Project[]) => {
+                return old?.map(project => project.id === target.id ? { ...project, ...target } : project) || []
+            })
+            return { previousItems }
+        },
+        onError(error, newItem, context) {
+            queryClient.setQueryData(queryKey, (context as { previousItems: Project[] }).previousItems)
+        }
     }
     )
 }
@@ -56,7 +71,7 @@ export const useProject = (id?: number) => {
         () => client(`projects/${id}`),
         {
             enabled: Boolean(id)
-        } 
+        }
     )
 }
 export const useDeleteProject = () => {

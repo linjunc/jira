@@ -299,3 +299,18 @@ function Page(props) {
 
 这样我们只用传递 `userLink` 即可，
 
+### 12. 为什么创建和编辑中的关闭按钮，只有一个起作用？
+
+造成这个问题主要原因在于这段代码
+
+```tsx
+const close = () => {
+    setEditingProjectId({ editingProjectId: undefined });
+    setProjectCreate({ projectCreate: undefined });
+}
+```
+
+测试发现哪条语句在前面，哪个就生效，在前面的那个不会生效，初步判断造成问题的原因是异步操作，但是还没有找到解决的方法
+
+更正问题来源：由于后面的那一条会把前面的数据重新设置上去造成的
+
