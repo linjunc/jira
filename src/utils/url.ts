@@ -10,7 +10,8 @@ import { cleanObject } from './index';
 //  当我们传入值是，那个值的值会作为 参数 keys 传入，类型会作为 K[]被接收
 export const useUrlQueryParam = <K extends string>(keys: K[]) => {
     // 定义了一些实用的方法来处理 URL 的查询字符串
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [searchParams] = useSearchParams()
+    const setSearchParams = useSetUrlSearchParam()
     // 返回一个数组，第一个是 值，第二个是改变值得方法，相当于这里重写了一个 useState
     return [
         // 会创建新的对象 
@@ -21,14 +22,24 @@ export const useUrlQueryParam = <K extends string>(keys: K[]) => {
                 return { ...prev, [key]: searchParams.get(key) || '' }
                 // 传入的是一个 key 类型在 K 中值为 string 的对象
             }, {} as { [key in K]: string }),
-            
+
             [keys, searchParams]
         ),
         // 键值限定在我们设置的范围之内
         (params: Partial<{ [key in K]: unknown }>) => {
             // 把 fromEntries 转化为一个对象
-            const o = cleanObject({ ...Object.fromEntries(searchParams), ...params }) as URLSearchParamsInit
-            return setSearchParams(o)
+            return setSearchParams(params)
         }
     ] as const
+}
+// 通过这个单独得 hook 来 set search param
+export const useSetUrlSearchParam = () => {
+    const [searchParams, setSearchParams] = useSearchParams()
+    return (params: { [key in string]: unknown }) => {
+        const o = cleanObject({
+            ...Object.fromEntries(searchParams),
+            ...params
+        }) as URLSearchParamsInit
+        return setSearchParams(o)
+    }
 }

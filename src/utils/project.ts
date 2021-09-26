@@ -4,8 +4,9 @@ import { cleanObject } from "utils"
 import { useHttp } from "./http"
 import { useAsync } from "./use-Async"
 import { Project } from 'screens/project-list/list'
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient, QueryKey, Query } from 'react-query';
 import { useProjectsSearchParams } from '../screens/project-list/util';
+import { useEditConfig, useAddConfig, useDeleteConfig } from './use-optimistic-options';
 
 export const useProjects = (param?: Partial<Project>) => {
     // 引入一个自定义的 http hook
@@ -20,11 +21,12 @@ export const useProjects = (param?: Partial<Project>) => {
 //  处理收藏的请求
 // 由于 hook 只能在最顶部调用，不能在组件内部调用，因此这里不能传递参数
 // 这个函数无限循环了
-export const useEditProject = () => {
+export const useEditProject = (queryKey: QueryKey) => {
     // 引入两个方法
     // 这里暴露其他的属性，供后面的使用
     const client = useHttp()
-    const queryClient = useQueryClient()
+    // 为了解耦这里不传递
+    // const queryKey = ['projects',useProjectsSearchParams()]
     // 问题根源在这 9.26，获取searchparam
     // const [searchParams] = useProjectsSearchParams()
     // 无限循环
@@ -34,8 +36,10 @@ export const useEditProject = () => {
         (params: Partial<Project>) => client(`projects/${params.id}`, {
             method: "PATCH",
             data: params
-        }), { // 第二个参数设置刷新
-        onSuccess: () => queryClient.invalidateQueries('projects'),
+        }),
+        useEditConfig(queryKey)
+        // 第二个参数设置刷新
+        // onSuccess: () => queryClient.invalidateQueries('projects'),
         // async onMutate(target) {
         //     // 数据列表
         //     const previousItems = queryClient.getQueryData(queryKey)
@@ -47,22 +51,20 @@ export const useEditProject = () => {
         // onError(error, newItem, context) {
         //     queryClient.setQueryData(queryKey, (context as { previousItems: Project[] }).previousItems)
         // }
-    }
+
     )
 }
 // 处理添加请求
-export const useAddProject = () => {
+export const useAddProject = (queryKey: QueryKey) => {
     // 引入两个方法
     // 这里暴露其他的属性，供后面的使用
     const client = useHttp()
-    const queryClient = useQueryClient()
     return useMutation(
         (params: Partial<Project>) => client(`projects`, {
             method: "POST",
             data: params
-        }), { // 第二个参数设置刷新
-        onSuccess: () => queryClient.invalidateQueries('projects')
-    }
+        }),
+        useAddConfig(queryKey)
     )
 }
 // 获取项目详情
@@ -77,6 +79,14 @@ export const useProject = (id?: number) => {
         }
     )
 }
-export const useDeleteProject = () => {
-
+export const useDeleteProject = (queryKey: QueryKey) => {
+    const client = useHttp()
+    return useMutation(
+        // 这里我没有出现问题，视频出现了问题
+        // 直接（id:number)
+        ({ id }: { id: number }) => client(`projects/${id}`, {
+            method: "DELETE",
+        }),
+        useDeleteConfig(queryKey)
+    )
 }

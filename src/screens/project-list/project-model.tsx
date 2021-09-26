@@ -1,5 +1,5 @@
 import { Button, Drawer, Form, Input, Spin } from "antd"
-import { useProjectModel } from './util';
+import { useProjectModel, useProjectsQueryKey } from './util';
 import { UserSelect } from '../../components/user-select';
 import { useEditProject, useAddProject } from '../../utils/project';
 import { useForm } from "antd/lib/form/Form";
@@ -13,7 +13,7 @@ export const ProjectModel = () => {
     // 不管是哪个得到的都是一个hook
     const useMutateProject = editingProject ? useEditProject : useAddProject
     // 为了区分 isLoading 重新命名一下
-    const { mutateAsync, error, isLoading: mutateLoading } = useMutateProject()
+    const { mutateAsync, error, isLoading: mutateLoading } = useMutateProject(useProjectsQueryKey())
     // 获取表单，重置表单
     const [form] = useForm()
     const onFinish = (values: any) => {
