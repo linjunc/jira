@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:47:28
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-25 15:51:44
+ * @LastEditTime: 2021-09-26 11:17:17
  * @Description: List 列表
  */
 // 目前可以不引入这个文件了
@@ -38,7 +38,7 @@ export const List = ({ users, ...props }: ListProps) => {
     const { open } = useProjectModel()
     // 引入自定义 hook 中的方法
     const { mutate } = useEditProject()
-    const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin }).then(props.refresh)
+    const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin })
     return <Table rowKey={"id"} pagination={false} columns={[
         {
             title: <Pin checked={true} disabled={true} />,
