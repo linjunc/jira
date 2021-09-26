@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 22:13:13
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-24 11:27:11
+ * @LastEditTime: 2021-09-26 22:15:37
  * @Description: 创建一个 auth 作者的共享数据 context
  */
 import React, { ReactNode } from "react";
@@ -15,6 +15,7 @@ import { http } from "utils/http";
 import { useAsync } from '../utils/use-Async';
 import { FullPageLoading } from "components/lib";
 import { FullPageErrorFallback } from '../components/lib';
+import { QueryClient, useQueryClient } from 'react-query';
 // 创建一个人员的 context 容器
 const AuthContext = React.createContext<{
     // 定义泛型
@@ -56,11 +57,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // 设置一个user变量 ，由于user 的类型由初始化的类型而定，但不能是 null ，我们需要进行类型断言
     // const [user, setUser] = useState<User | null>(null)
     const { data: user, error, isLoading, isIdle, isError, run, setData: setUser } = useAsync<User | null>()
+    const queryClient = useQueryClient()
     // 设置三个函数 登录 注册 登出
     // setUser 是一个简写的方式 原先是：user => setUser(user)
     const login = (form: AuthForm) => auth.login(form).then(setUser)
     const register = (form: AuthForm) => auth.register(form).then(setUser)
-    const logout = () => auth.logout().then(() => setUser(null))
+    const logout = () => auth.logout().then(() => {
+        setUser(null)
+        // 清除数据缓存
+        queryClient.clear()
+    })
     // 当组件挂载时，初始化 user
     useMount(() => {
         run(bootstrapUser())

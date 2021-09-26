@@ -22,6 +22,11 @@ export const ProjectModel = () => {
             close()
         })
     }
+    // 处理关闭窗口后的信息遗留问题
+    const closeModel = ()=>{
+        form.resetFields()
+        close()
+    }
     // 定义一个变量用来显示页面的标题 
     const title = editingProject ? '编辑项目' : '创建项目'
     useEffect(() => {
@@ -31,7 +36,7 @@ export const ProjectModel = () => {
         // 强制渲染
         <Drawer
             forceRender={true}
-            onClose={close}
+            onClose={closeModel}
             visible={projectModelOpen}
             width={'100%'} >
             {

@@ -39,6 +39,7 @@ export const useProjectModel = () => {
         editingProjectId: undefined, projectCreate: undefined
     })
     return {
+        // 采用 id才是最佳选择，这样不用等待数据返回就能打开编辑框
         projectModelOpen: projectCreate === 'true' || Boolean(editingProjectId),
         open,
         close,

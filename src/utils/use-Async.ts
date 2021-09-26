@@ -73,7 +73,6 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
         return promise
             .then(data => {
                 // 成功则处理stat
-                console.log(data);
                 // 判断组件状态
                 setData(data)
                 // throw new Error('222')
@@ -82,11 +81,11 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
                 console.log('失败');
                 // 卧槽，尼玛的，解决了catch 获取不到错误的问题
                 // 接收到扔来的错误，再扔一下
-                throw Promise.reject(await err.then())
+                return Promise.reject(await err)
+                // throw Promise.reject(await err.then())
             })
             .catch(error => {
                 // 错误抛出了，但是接不住
-                console.log(error);
                 setError(error)
                 if (config.throwOnError) {
                     return Promise.reject(error)

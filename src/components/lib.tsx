@@ -1,3 +1,4 @@
+// loading组件，以及全局错误提示
 import styled from "@emotion/styled";
 import React from "react";
 import { Button, Spin, Typography } from 'antd';
@@ -49,7 +50,7 @@ const isError = (value: any):value is Error => value?.message
 export const ErrorBox = ({ error }: { error: unknown }) => {
     if (isError(error)) {
         return (<Typography.Text type={'danger'}>
-            {error?.message + '111'}
+            {error?.message}
         </Typography.Text>)
     }
     return null
