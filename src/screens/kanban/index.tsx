@@ -3,12 +3,14 @@ import { useDocumentTitle } from '../../utils/index';
 import { KanbanColumn } from './kanban-columu';
 import { useProjectInUrl, useKanbanSearchParams } from './util';
 import styled from '@emotion/styled';
+import { SearchPanel } from './search-pannel';
 export const KanbanScreen = () => {
     useDocumentTitle('看板列表')
     const { data: currentProejct } = useProjectInUrl()
     const { data: kanbans } = useKanbans(useKanbanSearchParams())
     return <div>
         <h1>{currentProejct?.name}看板</h1>
+        <SearchPanel />
         <ColumnsContainer>
             {
                 kanbans?.map(kanban => <KanbanColumn kanban={kanban} key={kanban.id} />)
