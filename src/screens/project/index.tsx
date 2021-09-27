@@ -47,6 +47,7 @@ const Main = styled.div`
 `
 // grid 布局，左边16rem，右边随意
 const Container = styled.div`
+    width: 100%;
     display: grid;
     grid-template-columns: 20rem 1fr;
     /* overflow: hidden; */

@@ -1,3 +1,4 @@
+// reducer 做状态管理的demo
 import { useCallback, useReducer } from 'react';
 // 定义 constant 定量
 const UNDO = 'UNDO'

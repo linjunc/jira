@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:46:21
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-26 13:46:52
+ * @LastEditTime: 2021-09-27 16:48:05
  * @Description: 
  */
 // 外部资源包
@@ -53,4 +53,5 @@ export const ProjectListScreen = () => {
 }
 const Container = styled.div`
     padding: 3.2rem;
+    flex: 1;
 `

@@ -23,7 +23,6 @@ export const AuthenticatedApp = () => {
             <Main>
                 {/* <ProjectListScreen /> */}
                 {/* 采用路由 */}
-
                 <Routes>
                     {/* <Route path={'/'} element={<ProjectListScreen />}></Route> */}
                     <Route path={'/projects'} element={<ProjectListScreen />}></Route>
@@ -31,7 +30,6 @@ export const AuthenticatedApp = () => {
                     {/* 艹，不要安装6 beta4 */}
                     <Navigate to={"/projects"} />
                 </Routes>
-
             </Main>
             {/* 由于我们在路由Router 之外用了useProjectModel，它又用到了useUrlQueryParam，因此使用到了路由内容，会报错提示usehistory... */}
             <ProjectModel />
@@ -78,12 +76,13 @@ const Container = styled.div`
 const Header = styled(Row)`
     padding: 3.2rem;
     box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
-    /* z-index:1; */
+    z-index:1;
 `
 const HeaderLeft = styled(Row)``
 const HeaderRight = styled.div`
 `
+// 这里不加项目列表无法列内滚动
 const Main = styled.main`
-    /* display: flex;
-    overflow: hidden; */
+    display: flex;
+    overflow: hidden;
 `
