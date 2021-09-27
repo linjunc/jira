@@ -8,12 +8,13 @@ import { ScreenContainer } from '../../components/lib';
 import { useTasks } from 'utils/task';
 import { Spin } from 'antd';
 import { CreateKanban } from './create-kanban';
+import { TaskModel } from './task-model';
 export const KanbanScreen = () => {
     useDocumentTitle('看板列表')
     const { data: currentProejct } = useProjectInUrl()
     // 传入project id 获取看板数据
     const { data: kanbans, isLoading: kanbanIsLoading } = useKanbans(useKanbanSearchParams())
-    // 设置loading
+    // 设置loading，传入url内容
     const { isLoading: taskIsLoading } = useTasks(useTasksSearchParams())
     // 设置loading
     const isLoading = taskIsLoading || kanbanIsLoading
@@ -21,13 +22,15 @@ export const KanbanScreen = () => {
         <h1>{currentProejct?.name}看板</h1>
         <SearchPanel />
         {/* 判断是否处于 loading 状态 */}
-        {isLoading ? <Spin size={'large'} /> : <ColumnsContainer>
-            {
-                kanbans?.map(kanban => <KanbanColumn kanban={kanban} key={kanban.id} />)
-            }
-            <CreateKanban />
-        </ColumnsContainer>}
-        
+        {
+            isLoading ? <Spin size={'large'} /> : <ColumnsContainer>
+                {
+                    kanbans?.map(kanban => <KanbanColumn kanban={kanban} key={kanban.id} />)
+                }
+                <CreateKanban />
+            </ColumnsContainer>
+        }
+        <TaskModel />
     </ScreenContainer>
 }
 export const ColumnsContainer = styled.div`
