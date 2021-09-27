@@ -11,6 +11,7 @@ import { CreateTask } from "./create-task";
 import { Mark } from "components/mark";
 import { Task } from "types/task";
 import { Row } from "components/lib";
+import React from "react";
 // 通过type渲染图片
 const TaskTypeIcon = ({ id }: { id: number }) => {
     const { data: taskTypes } = useTaskTypes()
@@ -29,26 +30,26 @@ const TaskCard = ({ task }: { task: Task }) => {
         <TaskTypeIcon id={task.typeId} />
     </Card>
 }
-export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
+export const KanbanColumn = React.forwardRef<HTMLDivElement, { kanban: Kanban }>(({ kanban , ...props}, ref) => {
     // 获取全部的任务数据，在这里获取数据，这个数据是动态的，根据url内容而定
     const { data: allTasks } = useTasks(useTasksSearchParams())
     // 对数据进行分类，返回的是三段数据，都是数组
     // 通过typeId来判断是什么类型
     const tasks = allTasks?.filter(task => task.kanbanId === kanban.id)
-    return <Container>
+    return <Container ref={ref} {...props} >
         <Row between={true}>
             <h3>{kanban.name} </h3>
-            <More kanban={kanban} />
+            <More kanban={kanban} key={kanban.id} />
         </Row>
 
         <TasksContainer>
             {
-                tasks?.map(task => <TaskCard task={task} />)
+                tasks?.map(task => <TaskCard key={task.id} task={task} />)
             }
             <CreateTask kanbanId={kanban.id} />
         </TasksContainer>
     </Container>
-}
+})
 const More = ({ kanban }: { kanban: Kanban }) => {
     const { mutateAsync, } = useDeleteKanban(useKanbansQueryKey())
     const startEdit = () => {
