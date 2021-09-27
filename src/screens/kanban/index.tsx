@@ -91,6 +91,7 @@ export const useDragEnd = () => {
             // 获取拖拽的元素
             const fromTask = allTasks.filter(task => task.kanbanId === fromKanbanId)[source.index]
             const toTask = allTasks.filter(task => task.kanbanId === fromKanbanId)[destination.index]
+            //
             if (fromTask?.id === toTask?.id) {
                 return
             }
