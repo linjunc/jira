@@ -15,7 +15,9 @@ export const useProjectInUrl = () => useProject(useProjectIdInUrl())
 // 看板搜索框的内容
 export const useKanbanSearchParams = () => ({ projectId: useProjectIdInUrl() })
 export const useKanbansQueryKey = () => ['kanbans', useKanbanSearchParams()]
+// 任务搜索框数据
 export const useTasksSearchParams = () => {
+    // 搜索内容
     const [param, setParam] = useUrlQueryParam([
         'name',
         'typeId',
@@ -24,6 +26,7 @@ export const useTasksSearchParams = () => {
     ])
     // 获取当前的项目id用来获取看板数据
     const projectId = useProjectIdInUrl()
+    // 返回的数组，并监听 param变化，这个会是引起发送请求的根源吗
     return useMemo(() => ({
         projectId,
         typeId: Number(param.typeId) || undefined,

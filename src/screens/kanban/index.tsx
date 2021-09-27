@@ -8,6 +8,7 @@ import { ScreenContainer } from '../../components/lib';
 export const KanbanScreen = () => {
     useDocumentTitle('看板列表')
     const { data: currentProejct } = useProjectInUrl()
+    // 传入project id 获取看板数据
     const { data: kanbans } = useKanbans(useKanbanSearchParams())
     return <ScreenContainer>
         <h1>{currentProejct?.name}看板</h1>
@@ -18,7 +19,7 @@ export const KanbanScreen = () => {
             }
         </ColumnsContainer>
     </ScreenContainer>
-}
+} 
 const ColumnsContainer = styled.div`
 display:flex;
 overflow: hidden;
