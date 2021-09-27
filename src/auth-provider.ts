@@ -6,7 +6,7 @@
  * @Description: 使用 firebase 服务不需要使用开发者开发
  */
 
-import { User } from "screens/project-list/search-panel";
+import User from "types/User";
 // 全局 URL
 const apiUrl = process.env.REACT_APP_API_URL;
 // 保存本地存储中的 token 键

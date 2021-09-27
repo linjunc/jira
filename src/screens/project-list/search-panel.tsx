@@ -3,20 +3,9 @@
 import React from "react"
 import { Input, Form } from 'antd'
 // import { useEffect, useState } from "react"
-import { Project } from './list';
+import { Project } from '../../types/project';
 import { UserSelect } from '../../components/user-select';
-// 内部资源包
-
-// 定义人员基本信息接口
-// 这里需要多添加一个 token 字段，在登陆时需要记录登录信息，通过 token 令牌认证
-export interface User {
-    id: number;
-    name: string;
-    email: string;
-    title: string;
-    organization: string;
-    token: string
-}
+import User from "../../types/User";
 // 定义 SearchPanel 的参数类型接口
 interface SearchPanelProps {
     users: User[],

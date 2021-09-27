@@ -2,12 +2,12 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:47:28
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-26 20:39:44
+ * @LastEditTime: 2021-09-27 11:03:48
  * @Description: List 列表
  */
 // 目前可以不引入这个文件了
 import React from "react"
-import { User } from './search-panel';
+import User from "../../types/User";
 import { Dropdown, Menu, Modal, Table, TableProps } from 'antd'
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
@@ -17,15 +17,7 @@ import { ButtonNoPadding } from '../../components/lib';
 import { useProjectModel, useProjectsQueryKey } from './util';
 import { Content } from "antd/lib/layout/layout";
 import { useDeleteProject } from '../../utils/project';
-// 定义人员类型接口
-export interface Project {
-    id: number;
-    name: string;
-    personId: number;
-    pin: boolean;
-    organization: string;
-    created: number
-}
+import { Project } from '../../types/project';
 // 定义函数的接口
 // 继承自 Table 标签的接口，tableprops 中有着 props 值的类型定义
 interface ListProps extends TableProps<Project> {

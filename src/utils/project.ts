@@ -3,7 +3,7 @@ import { useCallback, useEffect } from "react"
 import { cleanObject } from "utils"
 import { useHttp } from "./http"
 import { useAsync } from "./use-Async"
-import { Project } from 'screens/project-list/list'
+import { Project } from '../types/project'
 import { useMutation, useQuery, useQueryClient, QueryKey, Query } from 'react-query';
 import { useProjectsSearchParams } from '../screens/project-list/util';
 import { useEditConfig, useAddConfig, useDeleteConfig } from './use-optimistic-options';

@@ -10,7 +10,9 @@ export const ProjectScreen = () => {
             <Routes>
                 <Route path={'/kanban'} element={<KanbanScreen />} />
                 <Route path={'/epic'} element={<EpicScreen />} />
-                <Navigate to={window.location.pathname + '/kanban'} />
+                {/* 默认路由是push，相当于又成为了栈顶，也就是当前页面被push了两次，第一次的值不匹配第二次才匹配 */}
+                {/* 采用replace这样就能替换掉传入的栈顶元素，下面的路由成为了栈顶*/}
+                <Navigate to={window.location.pathname + '/kanban'} replace={true} />
             </Routes>
 
     </div>)
