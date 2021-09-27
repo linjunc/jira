@@ -7,5 +7,5 @@ import { TaskType } from '../types/task-type';
 export const useTaskTypes = () => {
     const client = useHttp()
     // 获取所有的task type
-    return useQuery<TaskType[]>(['tasksType'], () => client('tasksTypes'))
+    return useQuery<TaskType[]>(['taskTypes'], () => client('taskTypes'))
 }
