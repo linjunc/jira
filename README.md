@@ -315,3 +315,14 @@ const close = () => {
 更正问题来源：由于后面的那一条会把前面的数据重新设置上去造成的
 
 ### 13. 搜索框的功能是如何实现的？ 
+
+在 `useTask` 中触发，发送请求
+
+```tsx
+export const useTasks = (param?: Partial<Task>) => {
+    const client = useHttp()
+    // 搜索框请求在这里触发
+    return useQuery<Task[]>(['tasks', param], () => client('tasks', { data: param }))
+}
+```
+
