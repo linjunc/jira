@@ -22,3 +22,4 @@ export const useConfig = (queryKey: QueryKey, callback: (target: any, old?: any[
 export const useDeleteConfig = (queryKey: QueryKey) => useConfig(queryKey, (target, old) => old?.filter(item => item.id !== target.id) || [])
 export const useEditConfig = (queryKey: QueryKey) => useConfig(queryKey, (target, old) => old?.map(item => item.id === target.id ? { ...item, ...target } : item) || [])
 export const useAddConfig = (queryKey: QueryKey) => useConfig(queryKey, (target, old) => old ? [...old, target] : [])
+export const useReorderConfig = (queryKey: QueryKey) => useConfig(queryKey, (target, old) => old || [] )

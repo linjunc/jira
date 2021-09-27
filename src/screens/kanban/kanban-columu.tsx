@@ -46,14 +46,14 @@ export const KanbanColumn = React.forwardRef<HTMLDivElement, { kanban: Kanban }>
 
         <TasksContainer>
             {/* 用drop包裹父元素，用 drag 来包裹要被拖拽的元素 */}
-            <Drop type={"ROW"} direction={"vertical"} droppableId={'task' + kanban.id}>
+            <Drop type={"ROW"} direction={"vertical"} droppableId={String(kanban.id)}>
                 <DropChild>
                     {
                         tasks?.map((task, taskIndex) =>
                             <Drag key={task.id} index={taskIndex} draggableId={'task' + task.id} >
-                               <div>
-                               <TaskCard key={task.id} task={task} />
-                               </div>
+                                <div>
+                                    <TaskCard key={task.id} task={task} />
+                                </div>
                             </Drag>)
                     }
                 </DropChild>

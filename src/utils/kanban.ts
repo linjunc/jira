@@ -1,7 +1,7 @@
 import { QueryKey, useMutation, useQuery } from "react-query"
 import { useHttp } from "./http"
 import { Kanban } from '../types/kanban';
-import { useAddConfig } from "./use-optimistic-options";
+import { useAddConfig, useReorderConfig } from './use-optimistic-options';
 
 export const useKanbans = (param?: Partial<Kanban>) => {
     const client = useHttp()
@@ -18,5 +18,28 @@ export const useAddKanban = (queryKey: QueryKey) => {
             data: params
         }),
         useAddConfig(queryKey)
+    )
+}
+export interface SortProps {
+    // 拿的项目的id
+    fromId?: number;
+    // 放在的位置
+    referenceId?: number;
+    // 在前面还是在后面
+    type: 'before' | 'after';
+    fromKanbanId?: number;
+    toKanbanId?: number
+}
+// 持久化数据接口
+export const useReorderKanban = (queryKey:QueryKey) => {
+    const client = useHttp()
+    return useMutation(
+        (params: SortProps) => {
+            return client('kanbans/reorder', {
+                data: params,
+                method: "POST"
+            })
+        },
+        useReorderConfig(queryKey)
     )
 }

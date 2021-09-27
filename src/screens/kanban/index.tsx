@@ -1,16 +1,18 @@
 import { useKanbans } from 'utils/kanban';
 import { useDocumentTitle } from '../../utils/index';
 import { KanbanColumn } from './kanban-columu';
-import { useProjectInUrl, useKanbanSearchParams, useTasksSearchParams } from './util';
+import { useProjectInUrl, useKanbanSearchParams, useTasksSearchParams, useKanbansQueryKey, useTasksQueryKey } from './util';
 import styled from '@emotion/styled';
 import { SearchPanel } from './search-pannel';
 import { ScreenContainer } from '../../components/lib';
-import { useTasks } from 'utils/task';
+import { useReorderTask, useTasks } from 'utils/task';
 import { Spin } from 'antd';
 import { CreateKanban } from './create-kanban';
 import { TaskModel } from './task-model';
-import { DragDropContext } from 'react-beautiful-dnd'
+import { DragDropContext, DropResult } from 'react-beautiful-dnd'
 import { Drop, DropChild, Drag } from '../../components/drag-and-drop';
+import { useReorderKanban } from '../../utils/kanban';
+import { useCallback } from 'react';
 export const KanbanScreen = () => {
     useDocumentTitle('看板列表')
     const { data: currentProejct } = useProjectInUrl()
@@ -20,9 +22,11 @@ export const KanbanScreen = () => {
     const { isLoading: taskIsLoading } = useTasks(useTasksSearchParams())
     // 设置loading
     const isLoading = taskIsLoading || kanbanIsLoading
+    // 实现拖拽的hook
+    const onDragEnd = useDragEnd()
     // 这个回调中一般做持久化的工作
     return (
-        <DragDropContext onDragEnd={() => { }}>
+        <DragDropContext onDragEnd={onDragEnd}>
             <ScreenContainer>
                 <h1>{currentProejct?.name}看板</h1>
                 <SearchPanel />
@@ -44,7 +48,7 @@ export const KanbanScreen = () => {
                                                 </Drag>
                                             )}
                                     </DropChild>
-                                </Drop> 
+                                </Drop>
                                 <CreateKanban />
                             </ColumnsContainer>
                         )
@@ -52,6 +56,54 @@ export const KanbanScreen = () => {
                 <TaskModel />
             </ScreenContainer>
         </DragDropContext>)
+}
+export const useDragEnd = () => {
+    // 先取到看板
+    const { data: kanbans } = useKanbans(useKanbanSearchParams())
+    const { mutate: reorderKanban } = useReorderKanban(useKanbansQueryKey())
+    // 获取task信息
+    const { data: allTasks = []} = useTasks(useTasksSearchParams())
+    const { mutate: reorderTask } = useReorderTask(useTasksQueryKey())
+    return useCallback(({ source, destination, type }: DropResult) => {
+        if (!destination) {
+            return
+        }
+        // 看板排序
+        if (type === 'COLUMN') {
+            const fromId = kanbans?.[source.index].id
+            const toId = kanbans?.[destination.index].id
+            // 如果没变化的时候直接return
+            if (!fromId || !toId || fromId === toId) {
+                return
+            }
+            // 判断放下的位置在目标的什么方位
+            const type = destination.index > source.index ? 'after' : 'before'
+            reorderKanban({ fromId, referenceId: toId, type })
+        }
+        if (type === 'ROW') {
+            // 通过 + 转变为数字
+            const fromKanbanId = +source.droppableId
+            const toKanbanId = +destination.droppableId
+            // 不允许跨版排序
+            if (fromKanbanId !== toKanbanId) {
+                return
+            }
+            // 获取拖拽的元素
+            const fromTask = allTasks.filter(task => task.kanbanId === fromKanbanId)[source.index]
+            const toTask = allTasks.filter(task => task.kanbanId === fromKanbanId)[destination.index]
+            if (fromTask?.id === toTask?.id) {
+                return
+            }
+            reorderTask({
+                fromId: fromTask?.id,
+                referenceId: toTask?.id,
+                fromKanbanId,
+                toKanbanId,
+                type: fromKanbanId === toKanbanId && destination.index > source.index ? 'after' : 'before'
+            })
+
+        }
+    }, [allTasks, kanbans, reorderKanban, reorderTask])
 }
 // 改成 drop 的子元素
 export const ColumnsContainer = styled('div')`
