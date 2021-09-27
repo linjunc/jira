@@ -37,8 +37,9 @@ export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
         </TasksContainer>
     </Container>
 }
-const Container = styled.div`
+export const Container = styled.div`
     min-width: 27rem;
+    min-height: 35rem;
     border-radius: 6px;
     background-color: rgb(244,245,247);
     display: flex;
