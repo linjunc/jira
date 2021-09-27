@@ -83,6 +83,14 @@ yarn add @welldone-software/why-did-you-render
 
 > 在 src 目录下新建一个 `wdyr.ts` 文件，然后在官网找到 `wdyr.js` 的内容，cv，再在 index.tsx 中的第一行引入  
 
+安装 react-beautiful-dnd ，一个实现拖拽的库
+
+```shell
+yarn add react-beautiful-dnd
+```
+
+
+
 ## Mock 方案
 
 1. json
