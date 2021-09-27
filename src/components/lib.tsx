@@ -42,7 +42,13 @@ export const FullPageErrorFallback = ({ error }: { error: Error | null }) => <Fu
 export const ButtonNoPadding = styled(Button)`
     padding: 0;
 `
-
+// padding 为3.2rem 的容器
+export const ScreenContainer = styled.div`
+    padding: 3.2rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+`
 // 类型守卫
 // 如果 value.message 返回 true 则会返回 value is Error ,value 的类型会变成 Error
 const isError = (value: any):value is Error => value?.message

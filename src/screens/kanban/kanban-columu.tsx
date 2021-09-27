@@ -18,7 +18,10 @@ const TaskTypeIcon = ({ id }: { id: number }) => {
 }
 
 export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
+    // 获取全部的任务数据
     const { data: allTasks } = useTasks(useTasksSearchParams())
+    // 对数据进行分类，返回的是三段数据，都是数组
+    // 通过typeId来判断是什么类型
     const tasks = allTasks?.filter(task => task.kanbanId === kanban.id)
     return <Container>
         <h3>{kanban.name} </h3>
@@ -32,7 +35,6 @@ export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
                 </Card>)
             }
         </TasksContainer>
-
     </Container>
 }
 const Container = styled.div`

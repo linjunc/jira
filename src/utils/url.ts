@@ -33,6 +33,7 @@ export const useUrlQueryParam = <K extends string>(keys: K[]) => {
     ] as const
 }
 // 通过这个单独得 hook 来 set search param
+// 把输入框的内容映射到url地址上
 export const useSetUrlSearchParam = () => {
     const [searchParams, setSearchParams] = useSearchParams()
     return (params: { [key in string]: unknown }) => {
