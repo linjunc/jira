@@ -30,28 +30,31 @@ export const KanbanScreen = () => {
                 {
                     isLoading ?
                         <Spin size={'large'} /> : (
-                            <Drop type={'COLUMN'} direction={"horizontal"} droppableId={'kanban'} >
-                                <ColumnsContainer>
-                                    {
-                                        kanbans?.map((kanban, index) =>
-                                            <Drag
-                                                key={kanban.id}
-                                                draggableId={'kanban' + kanban.id}
-                                                index={index}
-                                            >
-                                                <KanbanColumn kanban={kanban} key={kanban.id} />
-                                            </Drag>)
-                                    }
-                                    <CreateKanban />
-                                </ColumnsContainer>
-                            </Drop>)
+                            <ColumnsContainer>
+                                <Drop type={'COLUMN'} direction={"horizontal"} droppableId={'kanban'} >
+                                    <DropChild style={{ display: 'flex' }}>
+                                        {
+                                            kanbans?.map((kanban, index) =>
+                                                <Drag
+                                                    key={kanban.id}
+                                                    draggableId={'kanban' + kanban.id}
+                                                    index={index}
+                                                >
+                                                    <KanbanColumn kanban={kanban} key={kanban.id} />
+                                                </Drag>
+                                            )}
+                                    </DropChild>
+                                </Drop> 
+                                <CreateKanban />
+                            </ColumnsContainer>
+                        )
                 }
                 <TaskModel />
             </ScreenContainer>
         </DragDropContext>)
 }
 // 改成 drop 的子元素
-export const ColumnsContainer = styled(DropChild)`
+export const ColumnsContainer = styled('div')`
     display:flex;
     flex: 1;
     overflow-x: scroll;

@@ -12,6 +12,8 @@ import { Mark } from "components/mark";
 import { Task } from "types/task";
 import { Row } from "components/lib";
 import React from "react";
+import { Drag, Drop } from "components/drag-and-drop";
+import { DropChild } from '../../components/drag-and-drop';
 // 通过type渲染图片
 const TaskTypeIcon = ({ id }: { id: number }) => {
     const { data: taskTypes } = useTaskTypes()
@@ -30,7 +32,7 @@ const TaskCard = ({ task }: { task: Task }) => {
         <TaskTypeIcon id={task.typeId} />
     </Card>
 }
-export const KanbanColumn = React.forwardRef<HTMLDivElement, { kanban: Kanban }>(({ kanban , ...props}, ref) => {
+export const KanbanColumn = React.forwardRef<HTMLDivElement, { kanban: Kanban }>(({ kanban, ...props }, ref) => {
     // 获取全部的任务数据，在这里获取数据，这个数据是动态的，根据url内容而定
     const { data: allTasks } = useTasks(useTasksSearchParams())
     // 对数据进行分类，返回的是三段数据，都是数组
@@ -43,9 +45,19 @@ export const KanbanColumn = React.forwardRef<HTMLDivElement, { kanban: Kanban }>
         </Row>
 
         <TasksContainer>
-            {
-                tasks?.map(task => <TaskCard key={task.id} task={task} />)
-            }
+            {/* 用drop包裹父元素，用 drag 来包裹要被拖拽的元素 */}
+            <Drop type={"ROW"} direction={"vertical"} droppableId={'task' + kanban.id}>
+                <DropChild>
+                    {
+                        tasks?.map((task, taskIndex) =>
+                            <Drag key={task.id} index={taskIndex} draggableId={'task' + task.id} >
+                               <div>
+                               <TaskCard key={task.id} task={task} />
+                               </div>
+                            </Drag>)
+                    }
+                </DropChild>
+            </Drop>
             <CreateTask kanbanId={kanban.id} />
         </TasksContainer>
     </Container>
