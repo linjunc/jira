@@ -12,6 +12,7 @@ import { ProjectScreen } from "screens/project";
 import { resetRoute } from "utils";
 import { ProjectModel } from './screens/project-list/project-model';
 import { ProjectPopover } from './components/project-popover';
+import { UserPopover } from './components/user-popover';
 export const AuthenticatedApp = () => {
     return <Container>
         {/* 迁移router位置，包裹全部内容 */}
@@ -43,8 +44,10 @@ const PageHeader = () => {
             <ButtonNoPadding type={'link'} onClick={resetRoute}>
                 <SoftwareLogo width={'18rem'} color={'rgb(38,132,255)'} />
             </ButtonNoPadding>
+            {/* 收藏项目 */}
             <ProjectPopover />
-            <span>用户</span>
+            {/* 用户列表 */}
+            <UserPopover />
         </HeaderLeft>
         <HeaderRight>
             <User />
