@@ -1,11 +1,6 @@
-
-import { useCallback, useEffect } from "react"
-import { cleanObject } from "utils"
 import { useHttp } from "./http"
-import { useAsync } from "./use-Async"
 import { Project } from '../types/project'
-import { useMutation, useQuery, useQueryClient, QueryKey, Query } from 'react-query';
-import { useProjectsSearchParams } from '../screens/project-list/util';
+import { useMutation, useQuery, QueryKey } from 'react-query';
 import { useEditConfig, useAddConfig, useDeleteConfig } from './use-optimistic-options';
 
 export const useProjects = (param?: Partial<Project>) => {

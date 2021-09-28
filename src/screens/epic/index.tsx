@@ -8,7 +8,6 @@ import dayjs from 'dayjs';
 import { useTasks } from '../../utils/task';
 import { Link } from "react-router-dom";
 import { CreateEpic } from './create-epic';
-import { type } from "os";
 import { useState } from "react";
 import { Epic } from "types/epic";
 

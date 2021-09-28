@@ -1,9 +1,5 @@
 import User from "../types/User";
 import { useHttp } from './http';
-import { useEffect } from 'react';
-import { cleanObject } from './index';
-import { useAsync } from './use-Async';
-import { Project } from "types/project";
 import { useQuery } from "react-query";
 // react-query
 export const useUsers = (param?: Partial<User>) => {

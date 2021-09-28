@@ -2,9 +2,9 @@ import { useLocation } from "react-router"
 import { useProject } from "utils/project"
 import { useUrlQueryParam } from '../../utils/url';
 import { useMemo, useCallback } from 'react';
-import { Project } from '../../types/project';
 import { useTask } from "utils/task";
-import { useDebounce } from '../../utils/index';
+// 防抖，这里使用会抽搐
+// import { useDebounce } from '../../utils/index';
 // 获取当前的项目id用来获取看板数据，返回id
 export const useProjectIdInUrl = () => {
     const { pathname } = useLocation()
@@ -20,7 +20,7 @@ export const useKanbansQueryKey = () => ['kanbans', useKanbanSearchParams()]
 // 任务搜索框数据
 export const useTasksSearchParams = () => {
     // 搜索内容
-    const [param, setParam] = useUrlQueryParam([
+    const [param] = useUrlQueryParam([
         'name',
         'typeId',
         'processorId',

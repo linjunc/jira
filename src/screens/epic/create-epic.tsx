@@ -2,11 +2,9 @@ import styled from "@emotion/styled";
 import { Button, Drawer, DrawerProps, Form, Input, Spin } from "antd"
 import { useForm } from "antd/lib/form/Form";
 import { ErrorBox } from "components/lib";
-import { UserSelect } from "components/user-select";
 import { useAddEpic } from '../../utils/epic';
 import { useEpicsQueryKey } from './util';
 import { useEffect } from 'react';
-import { Project } from '../../types/project';
 import { useProjectIdInUrl } from '../kanban/util';
 
 export const CreateEpic = (props: Pick<DrawerProps, 'visible'> & { onClose: () => void }) => {

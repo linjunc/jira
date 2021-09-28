@@ -1,4 +1,4 @@
-import { QueryKey, QueryClient, useQueryClient } from 'react-query';
+import { QueryKey, useQueryClient } from 'react-query';
 import { Task } from 'types/task';
 import { reorder } from './reorder';
 

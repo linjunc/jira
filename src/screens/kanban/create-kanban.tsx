@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { useAddKanban } from "utils/kanban";
 import { useKanbansQueryKey, useProjectIdInUrl } from './util';
-import { ColumnsContainer } from './index';
 import { Input } from "antd";
 import { Container } from "./kanban-columu";
 // 新增看板内容

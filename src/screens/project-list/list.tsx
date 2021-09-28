@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:47:28
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-27 11:03:48
+ * @LastEditTime: 2021-09-28 10:42:13
  * @Description: List 列表
  */
 // 目前可以不引入这个文件了
@@ -15,7 +15,6 @@ import { Pin } from '../../components/pin';
 import { useEditProject } from "utils/project";
 import { ButtonNoPadding } from '../../components/lib';
 import { useProjectModel, useProjectsQueryKey } from './util';
-import { Content } from "antd/lib/layout/layout";
 import { useDeleteProject } from '../../utils/project';
 import { Project } from '../../types/project';
 // 定义函数的接口
@@ -29,10 +28,8 @@ interface ListProps extends TableProps<Project> {
 // 人员列表表单
 // List 组件中传入的类型就是 TableProps 类型，也就是说，props的类型是tableprops
 export const List = ({ users, ...props }: ListProps) => {
-    const { open } = useProjectModel()
     // 引入自定义 hook 中的方法
     const { mutate } = useEditProject(useProjectsQueryKey())
-
     const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin })
     return <Table rowKey={"id"} pagination={false} columns={[
         {

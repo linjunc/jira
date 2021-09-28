@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 22:13:13
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-26 22:15:37
+ * @LastEditTime: 2021-09-28 10:39:28
  * @Description: 创建一个 auth 作者的共享数据 context
  */
 import React, { ReactNode } from "react";
@@ -15,7 +15,7 @@ import { http } from "utils/http";
 import { useAsync } from '../utils/use-Async';
 import { FullPageLoading } from "components/lib";
 import { FullPageErrorFallback } from '../components/lib';
-import { QueryClient, useQueryClient } from 'react-query';
+import { useQueryClient } from 'react-query';
 // 创建一个人员的 context 容器
 const AuthContext = React.createContext<{
     // 定义泛型
