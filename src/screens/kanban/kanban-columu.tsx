@@ -1,5 +1,5 @@
 import { Kanban } from "types/kanban";
-import { useTasks, useDeleteKanban } from '../../utils/task';
+import { useTasks } from '../../utils/task';
 import { useTasksSearchParams, useTasksModel, useKanbansQueryKey } from './util';
 import { useTaskTypes } from '../../utils/task-type';
 // 引入图片资源
@@ -14,6 +14,7 @@ import { Row } from "components/lib";
 import React from "react";
 import { Drag, Drop } from "components/drag-and-drop";
 import { DropChild } from '../../components/drag-and-drop';
+import { useDeleteKanban } from "utils/kanban";
 // 通过type渲染图片
 const TaskTypeIcon = ({ id }: { id: number }) => {
     const { data: taskTypes } = useTaskTypes()

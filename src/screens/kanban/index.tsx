@@ -15,7 +15,7 @@ import { useReorderKanban } from '../../utils/kanban';
 import { useCallback } from 'react';
 export const KanbanScreen = () => {
     useDocumentTitle('看板列表')
-    const { data: currentProejct } = useProjectInUrl()
+    const { data: currentProject } = useProjectInUrl()
     // 传入project id 获取看板数据
     const { data: kanbans, isLoading: kanbanIsLoading } = useKanbans(useKanbanSearchParams())
     // 设置loading，传入url内容
@@ -28,9 +28,9 @@ export const KanbanScreen = () => {
     return (
         <DragDropContext onDragEnd={onDragEnd}>
             <ScreenContainer>
-                <h1>{currentProejct?.name}看板</h1>
+                <h1>{currentProject?.name}看板</h1>
                 <SearchPanel />
-                {/* 判断是否处于 loading 状态 */}
+                {/* 判断是否处于 loading 状态 */} 
                 {
                     isLoading ?
                         <Spin size={'large'} /> : (

@@ -48,18 +48,7 @@ export const useEditTask = (queryKey: QueryKey) => {
     )
 }
 
-// 删除看板
-export const useDeleteKanban = (queryKey: QueryKey) => {
-    const client = useHttp()
-    return useMutation(
-        // 这里我没有出现问题，视频出现了问题
-        // 直接（id:number)
-        ({ id }: { id: number }) => client(`kanbans/${id}`, {
-            method: "DELETE",
-        }),
-        useDeleteConfig(queryKey)
-    )
-}
+
 // 删除任务
 export const useDeleteTask = (queryKey: QueryKey) => {
     const client = useHttp()

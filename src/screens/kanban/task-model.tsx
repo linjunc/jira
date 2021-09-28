@@ -61,10 +61,10 @@ export const TaskModel = () => {
             <Form.Item label={'任务名'} name={'name'} rules={[{ required: true, message: '请输入任务名' }]} >
                 <Input />
             </Form.Item>
-            <Form.Item label={'经办人'} name={'processorId'} rules={[{ required: true, message: '请输入任务名' }]} >
+            <Form.Item label={'经办人'} name={'processorId'} rules={[{ required: true, message: '请输入经办人' }]} >
                 <UserSelect defaultOptionName={'经办人'} />
             </Form.Item>
-            <Form.Item label={'类型'} name={'typeId'} rules={[{ required: true, message: '请输入任务名' }]} >
+            <Form.Item label={'类型'} name={'typeId'} rules={[{ required: true, message: '请选择类型' }]} >
                 <TaskTypeSelect />
             </Form.Item>
         </Form>

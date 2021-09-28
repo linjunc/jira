@@ -1,7 +1,7 @@
 import { QueryKey, useMutation, useQuery } from "react-query"
 import { useHttp } from "./http"
 import { Kanban } from '../types/kanban';
-import { useAddConfig, useReorderKanbanConfig } from './use-optimistic-options';
+import { useAddConfig, useDeleteConfig, useReorderKanbanConfig } from './use-optimistic-options';
 
 export const useKanbans = (param?: Partial<Kanban>) => {
     const client = useHttp()
@@ -18,6 +18,18 @@ export const useAddKanban = (queryKey: QueryKey) => {
             data: params
         }),
         useAddConfig(queryKey)
+    )
+}
+// 删除看板
+export const useDeleteKanban = (queryKey: QueryKey) => {
+    const client = useHttp()
+    return useMutation(
+        // 这里我没有出现问题，视频出现了问题
+        // 直接（id:number)
+        ({ id }: { id: number }) => client(`kanbans/${id}`, {
+            method: "DELETE",
+        }),
+        useDeleteConfig(queryKey)
     )
 }
 export interface SortProps {
