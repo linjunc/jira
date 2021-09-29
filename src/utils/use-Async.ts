@@ -51,7 +51,6 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
         stat: 'error',
         data: null
     }), [safeDispatch])
-
     // run是主入口，触发异步请求
     // 采用useCallback,只有依赖中的数据发生变化的时候，run才会被重新定义
     const run = useCallback((promise: Promise<D>, runConfig?: { retry: () => Promise<D> }) => {
