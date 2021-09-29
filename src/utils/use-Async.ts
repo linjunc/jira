@@ -95,10 +95,12 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
     }, [config.throwOnError, safeDispatch, setData, setError])
     // 最终返回一大堆的数据接口
     return {
-        isIdle: state.stat === 'idle',
+        // 请求状态
+        isIdle: state.stat === 'idle', 
         isLoading: state.stat === 'loading',
         isError: state.stat === 'error',
         isSuccess: state.stat === 'success',
+        // run 接收一个promise 对象，返回执行结果
         run,
         setData,
         setError,

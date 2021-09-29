@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 22:06:17
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-23 23:35:14
+ * @LastEditTime: 2021-09-29 13:12:52
  * @Description: 使用 firebase 服务不需要使用开发者开发
  */
 
@@ -16,7 +16,7 @@ export const getToken = () => window.localStorage.getItem(localStorageKey);
 // 处理响应，重新设置 token
 export const handleUserResponse = ({ user }: { user: User }) => {
   window.localStorage.setItem(localStorageKey, user.token || "");
-  return user;
+  return user; 
 };
 // 当用户登录的时候，调用函数设置 token
 export const login = (data: { username: string; password: string }) => {

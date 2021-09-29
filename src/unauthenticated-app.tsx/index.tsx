@@ -32,7 +32,7 @@ export const UnauthenticatedApp = () => {
                 isRegister ? <RegisterScreen onError={setError} /> : <LoginScreen onError={setError} />
             }
             <Divider />
-            {/* 点击切换状态 */} 
+            {/* 点击切换状态 */}
             <Button type={'link'} onClick={() => setIsRegister(!isRegister)}>{isRegister ? '已经有账号了？直接登录' : '没有账号？注册新账号'}</Button>
         </ShadowCard>
     </Container>
