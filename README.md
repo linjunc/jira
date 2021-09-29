@@ -1,6 +1,6 @@
 # 开发笔记
 
-## 使用到的技术栈
+## 一、使用到的技术栈
 
 1. React17
 2. React Hook
@@ -8,10 +8,11 @@
 4. Hook + Content
 5. React Query
 6. CSS in JS
+7. React Router 6 
 
 
 
-## 命令行日志
+## 二、命令行日志
 
 初始化项目命令
 
@@ -91,12 +92,66 @@ yarn add react-beautiful-dnd
 
 
 
-## Mock 方案
+## 三、Mock 方案
 
-1. json
-2. 请求拦截
-3. 本地node 服务器
-4. json-server
+### 1. 代码侵入（请求本地 Json）
+
+缺点：
+
+1. 相比于其他方案的 Mock 效果不好
+2. 与真实接口切换非常麻烦（需要侵入代码切换环境的行为都是不好的）
+
+### 2. 请求拦截
+
+例如：`Mock.js` 
+
+示例：
+
+拦截的请求地址，请求方式，响应的数据
+
+```js
+Mock.mock(/\\/api\\/linjunc\\/ljc/, 'get', {
+	//设置响应数据
+})
+
+```
+
+优点：
+
+1. 与前端代码分离
+2. 可生成随机数据
+
+缺点
+
+1. 数据是动态生成的假数据，无法模拟增删改查
+2. 只支持 ajax，不支持 fetch
+
+### 3. 接口管理工具
+
+例如： `rap`、`swagger` 、`moco`
+
+优点：
+
+1. 配置功能强大，接口管理和 Mock 一体
+
+缺点：
+
+1. 功能强大所以配置复杂，
+2. 依赖后端，看后端脸色
+
+### 4. 本地 node 服务器
+
+采用 `json-server`
+
+优点：
+
+1. 配置简单
+2. 自定义程度高
+3. 增删改查真实
+
+缺点：
+
+1. 无法跟随后端 API 的修改而自动修改
 
 配置 `package.json`
 
@@ -104,6 +159,85 @@ yarn add react-beautiful-dnd
 "json-server": "json-server __json_server_mock__/db.json --watch"
 ```
 
+## 四、 传统 CSS 的缺陷 相比于 （CSS in JS)
+
+这是一种组织 CSS 代码的方式，常用的有两个 `styled-component` 和 `emotion`
+
+在上个简书项目的开发中采用了 `styled-component` ，这次项目采用了 `emotion` ，从体验上来看 `emotion` 更胜一筹，但是两者的几乎没有什么差别吧，基本一样的~
+
+### 1. 缺乏作用域
+
+传统的 CSS 只有一个全局作用域，比如说一个 `class` 选择器可以匹配全局的元素，这到项目的后期，是非常恐怖的，样式的层级难以理清，导致失控，而 CSS in JS 的方式可以通过独特的选择符，来实现作用域的效果
+
+### 2. 隐式依赖，样式难以追踪
+
+在传统 CSS 中 ，由于选择器优先级的关系，元素样式设置都是一件麻烦事
+
+而在 CSS in JS 中可以直接对指定的组件单个进行样式设置
+
+```html
+export const Title = styled.h1`
+  color: green;
+`
+<Title>
+  什么颜色
+</Title>
+```
+
+### 3. 没有变量
+
+传统 CSS 中没有变量，在 CSS in JS 中可以方便的控制变量，这也得益于 JS 模块化的作用
+
+```js
+const Container = styled.div(props => ({
+  display: 'flex',
+  flexDirection: props.column && 'column'
+}))
+```
+
+### 4. CSS 选择器与 HTML 元素耦合
+
+给一个元素设置样式，我们首先需要设置他的标签，然后，再设置 CSS 样式，这样就会造成，HTML 和 CSS 耦合，例如当需要修改 `h1` 标签为 `h2` 标签时，我们需要修改  HTML 再修改 CSS 代码
+
+而再 CSS in JS 中采用的是另一种模式，通过组件驱动样式，我们设置一个样式是什么什么样的组件，这个组件即包含了 HTML 结构，又包含了 CSS ，这样美哉~
+
+## 五、接口开发
+
+由于视频采用的是老师的工具，导致了这个项目部署以后会有用不了的问题，因此还是决定自己写一下接口，调用自己的数据，这样这个项目也算是自己完全掌握的，为了减少前端代码的修改，所有的接口规范都用尽量和本地存储数据样例保持一致，路由地址也会尽可能的一致吧
+
+采用工具时的本地存储信息，我们的数据格式以这个为主，数据存储在远端数据库中
+
+![image-20210928171138392](https://ljcimg.oss-cn-beijing.aliyuncs.com/img/image-20210928171138392.png)
+
+### 1. 技术选型
+
+采用的是 KOA 框架，原因：使用起来方便简单，最重要的是最近刚学的，用来练练手
+
+数据库采用的是 MongoDB 数据库，结合 `mongoose` 使用，对前端及其友好
+
+### 2. 接口文档
+
+开发之前，先把文档写好，我一定能行
+
+请求 url：
+
+| 请求地址             | 请求方式 | 参数                                                         | 返回成功信息                                                 | 返回失败信息                                                 | 作用         |
+| -------------------- | -------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------ |
+| /login               | POST     | password，username                                           | ![image-20210928172149075](https://ljcimg.oss-cn-beijing.aliyuncs.com/img/image-20210928172149075.png) | ![image-20210928172125638](https://ljcimg.oss-cn-beijing.aliyuncs.com/img/image-20210928172125638.png) | 登录         |
+| /register            | POST     | password,<br />username                                      | ![image-20210928172540915](https://ljcimg.oss-cn-beijing.aliyuncs.com/img/image-20210928172540915.png) | ![image-20210928172613212](https://ljcimg.oss-cn-beijing.aliyuncs.com/img/image-20210928172613212.png) | 注册         |
+| /projects            | GET      |                                                              | created: 1604989757139 id: 1 name: "快递管理" organization: "快递组" ownerId: 193416192 personId: 2 pin: true |                                                              | 获取列表     |
+| /projects            | POST     | name,organization,personId                                   | ![image-20210928180304505](https://ljcimg.oss-cn-beijing.aliyuncs.com/img/image-20210928180304505.png) |                                                              | 新增项目     |
+| /projects/number     | PATCH    | ![image-20210928180713161](https://ljcimg.oss-cn-beijing.aliyuncs.com/img/image-20210928180713161.png) |                                                              |                                                              | 编辑项目     |
+| /projects/number     | DELETE   |                                                              | ![image-20210928180839511](https://ljcimg.oss-cn-beijing.aliyuncs.com/img/image-20210928180839511.png) |                                                              | 删除项目     |
+| /users               | GET      |                                                              | id: 1 name: "高修文" organization: "外卖组" ownerId: 193416192 |                                                              | 获取用户     |
+| /projects?name=a     | GET      | name                                                         | 同/projects                                                  |                                                              | 查询项目     |
+| /projects?personId=1 | GET      | personId                                                     | 同/projects                                                  |                                                              | id查询       |
+| /taskTypes           | GET      |                                                              | ![image-20210928175524429](https://ljcimg.oss-cn-beijing.aliyuncs.com/img/image-20210928175524429.png) |                                                              | 获取类型     |
+| /kanbans?projectId=1 | GET      | projectId                                                    | ![image-20210928175637832](https://ljcimg.oss-cn-beijing.aliyuncs.com/img/image-20210928175637832.png) |                                                              | 获取看板数据 |
+| /tasks?projectId=1   | GET      | projectId                                                    | ![image-20210928175858873](https://ljcimg.oss-cn-beijing.aliyuncs.com/img/image-20210928175858873.png) |                                                              | 获取项目任务 |
+| /epics?projectId=1   | GET      | projectId                                                    | ![image-20210928180035418](https://ljcimg.oss-cn-beijing.aliyuncs.com/img/image-20210928180035418.png) |                                                              | 获取任务组   |
+
+好像有点多啊
 
 
 ## Q&A 文档
@@ -321,6 +455,8 @@ const close = () => {
 测试发现哪条语句在前面，哪个就生效，在前面的那个不会生效，初步判断造成问题的原因是异步操作，但是还没有找到解决的方法
 
 更正问题来源：由于后面的那一条会把前面的数据重新设置上去造成的
+
+最终将这里的两次调用抽成了一次，将 `seturl...` 函数抽象成两个，一个读取，一个设置
 
 ### 13. 搜索框的功能是如何实现的？ 
 

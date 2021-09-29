@@ -12,9 +12,10 @@ import { useDocumentTitle } from '../utils/index';
 import { ErrorBox } from '../components/lib';
 
 export const UnauthenticatedApp = () => {
-    // 设置当前登录状态 false
+    // 标识当前是注册还是登录，false 表示当前是登录状态
     const [isRegister, setIsRegister] = useState(false);
     const [error, setError] = useState<Error | null>(null)
+    // 自定义 hook 用来设置文档标题
     useDocumentTitle('jira 任务管理系统', false)
     return <Container style={{ display: "flex", justifyContent: "center" }}>
         <Header />
@@ -26,14 +27,14 @@ export const UnauthenticatedApp = () => {
                 }
             </Title>
             <ErrorBox error={error} />
-            {/* 判断登录状态 */}
+            {/* 判断展示登录页面还是注册页面 */}
             {
                 isRegister ? <RegisterScreen onError={setError} /> : <LoginScreen onError={setError} />
             }
             <Divider />
+            {/* 点击切换状态 */} 
             <Button type={'link'} onClick={() => setIsRegister(!isRegister)}>{isRegister ? '已经有账号了？直接登录' : '没有账号？注册新账号'}</Button>
         </ShadowCard>
-
     </Container>
 }
 export const LongButton = styled(Button)`

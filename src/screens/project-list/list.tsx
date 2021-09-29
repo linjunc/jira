@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:47:28
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-28 10:42:13
+ * @LastEditTime: 2021-09-28 20:15:09
  * @Description: List 列表
  */
 // 目前可以不引入这个文件了
@@ -80,7 +80,6 @@ export const List = ({ users, ...props }: ListProps) => {
             render(value, project) {
                 // overlay 是默认显示的东西,Menu是菜单，下拉菜单
                 return <More project={project} />
-
             }
         }
     ]} {...props} />

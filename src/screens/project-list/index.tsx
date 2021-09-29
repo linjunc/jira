@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:46:21
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-27 16:48:05
+ * @LastEditTime: 2021-09-28 20:18:45
  * @Description: 
  */
 // 外部资源包
@@ -37,7 +37,6 @@ export const ProjectListScreen = () => {
             <h1>项目列表</h1>
             <Button onClick={open}>创建项目</Button>
         </Row>
-
         <SearchPanel users={users || []} param={param} setParam={setParam} />
         {/* 如果error 采用 antd 组件 */}
         {/* 未解决error丢失问题 初步判断是由异步事件引起 */}
@@ -54,4 +53,5 @@ export const ProjectListScreen = () => {
 const Container = styled.div`
     padding: 3.2rem;
     flex: 1;
+    overflow-y: scroll;
 `

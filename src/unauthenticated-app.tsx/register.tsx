@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 20:46:20
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-23 23:38:36
+ * @LastEditTime: 2021-09-28 20:56:16
  * @Description: 注册表单
  */
 import React from 'react'
@@ -22,6 +22,7 @@ export const RegisterScreen = ({ onError }: { onError: (error: Error) => void })
     // 点击提交按钮时触发的事件，注意这里的 event 的类型是根据场景来变化的
     // cpassword 验证密码是否一致
     // 单独放出 cpassword，其余正常，cpassword 采用前端认证
+    // 在 onFinish 中能够接收到 用户提交的数据 key-value
     const handleSubmit = ({ cpassword, ...values }: { username: string, password: string, cpassword: string }) => {
         if (cpassword !== values.password) {
             onError(new Error('请确认两次密码相同'))
