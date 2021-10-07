@@ -74,6 +74,7 @@ export const useProject = (id?: number) => {
         }
     )
 }
+// 删除
 export const useDeleteProject = (queryKey: QueryKey) => {
     const client = useHttp()
     return useMutation(
