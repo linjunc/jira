@@ -17,6 +17,7 @@ export const useProjectsSearchParams = () => {
 }
 export const useProjectsQueryKey = () => {
     const [params] = useProjectsSearchParams()
+    // {name: '', personId: undefined}
     return ['projects', params]
 }
 // 采用 url 进行状态管理，感觉这种方法是最好的，通过暴露这几个方法，实际上调用的还是  setProjectCreate 方法，通过这个方法创建 url 显示在路径中
