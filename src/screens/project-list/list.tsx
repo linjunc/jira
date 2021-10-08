@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:47:28
  * @LastEditors: cheng
- * @LastEditTime: 2021-10-07 00:19:11
+ * @LastEditTime: 2021-10-08 17:40:19
  * @Description: List 列表
  */
 // 目前可以不引入这个文件了
@@ -29,7 +29,9 @@ interface ListProps extends TableProps<Project> {
 // List 组件中传入的类型就是 TableProps 类型，也就是说，props的类型是tableprops
 export const List = ({ users, ...props }: ListProps) => {
     // 引入自定义 hook 中的方法
+    // 编辑收藏状态，mutate 为同步乐观更新
     const { mutate } = useEditProject(useProjectsQueryKey())
+    // 指定修改的pin id 即可
     const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin })
     return <Table rowKey={"id"} pagination={false} columns={[
         {
@@ -45,7 +47,6 @@ export const List = ({ users, ...props }: ListProps) => {
                     }
                 />
             }
-
         },
         {
             title: '名称',

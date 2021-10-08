@@ -7,6 +7,8 @@ import { reorder } from './reorder';
 export const useConfig = (queryKey: QueryKey, callback: (target: any, old?: any[]) => any[]) => {
     const queryClient = useQueryClient()
     return {
+        // 生命周期函数
+        // 成功
         onSuccess: () => queryClient.invalidateQueries(queryKey),
         async onMutate(target: any) {
             // 数据列表
@@ -17,6 +19,7 @@ export const useConfig = (queryKey: QueryKey, callback: (target: any, old?: any[
             return { previousItems }
         },
         onError(error: any, newItem: any, context: any) {
+            // 发生错误继续缓存旧的值
             queryClient.setQueryData(queryKey, context.previousItems)
         }
     }

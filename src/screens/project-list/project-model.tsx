@@ -60,8 +60,6 @@ export const ProjectModel = () => {
                     </Form>
                 </Container>
             }
-            {/* <h1>Project Model</h1>
-            <Button onClick={close}>关闭</Button> */}
         </Drawer>
     )
 }
