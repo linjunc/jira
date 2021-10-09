@@ -8,7 +8,7 @@ import { Menu } from 'antd';
 const useRouteType = () => {
     // 得到的是一个路由数据数组，通过 / 来分隔
     const units = useLocation().pathname.split('/')
-    // 得到最后的值，用来判断是看板还是数组
+    // 得到最后的值，用来判断是看板还是任务组
     return units[units.length - 1]
 }
 export const ProjectScreen = () => {

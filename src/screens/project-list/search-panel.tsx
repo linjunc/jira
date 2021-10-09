@@ -14,6 +14,7 @@ interface SearchPanelProps {
     setParam: (param: SearchPanelProps['param']) => void
 }
 // SearchPanel 函数组件
+// serParam 从 index 中传递而来，props
 export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
     return <Form style={{ marginBottom: '2rem' }} layout={"inline"} action="">
         <Form.Item>
@@ -32,7 +33,7 @@ export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
         {/* 实质：通过id查找 */}
         <Form.Item>
             <UserSelect
-            // 默认选项
+                // 默认选项
                 defaultOptionName={'负责人'}
                 value={param.personId}
                 onChange={value =>
@@ -45,7 +46,6 @@ export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
             {/* 这里的value值一定不能多填 */}
             {/* // 这里的id 类型不一致导致了 number 和 string 无法匹配
             // 把id 强制转化为 string 类型，这个问题在后面会解决 */}
-
         </Form.Item>
     </Form>
 }

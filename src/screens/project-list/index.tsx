@@ -2,7 +2,7 @@
  * @Author: 林俊丞
  * @Date: 2021-09-20 13:46:21
  * @LastEditors: cheng
- * @LastEditTime: 2021-09-28 20:18:45
+ * @LastEditTime: 2021-10-08 20:17:10
  * @Description: 
  */
 // 外部资源包
@@ -24,11 +24,13 @@ import { ErrorBox, Row } from '../../components/lib';
 export const ProjectListScreen = () => {
     // title 文字
     useDocumentTitle('项目列表', false)
+    
     const [param, setParam] = useProjectsSearchParams()
     const {open} = useProjectModel()
     // 通过防抖处理 useDebounce
     // 引入自定义的 async hook
     // 不知道怎么解决这里的类型问题
+    //  输入框 --> param 改变 。触发防抖，获取数据
     const { isLoading, error, data: list} = useProjects(useDebounce(param, 200))
     const { data: users } = useUsers()
     return <Container>
