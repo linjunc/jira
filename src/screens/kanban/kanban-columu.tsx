@@ -33,12 +33,14 @@ const TaskCard = ({ task }: { task: Task }) => {
         <TaskTypeIcon id={task.typeId} />
     </Card>
 }
+// 渲染了三个column，三个请求，整合成一个
 export const KanbanColumn = React.forwardRef<HTMLDivElement, { kanban: Kanban }>(({ kanban, ...props }, ref) => {
     // 获取全部的任务数据，在这里获取数据，这个数据是动态的，根据url内容而定
     const { data: allTasks } = useTasks(useTasksSearchParams())
     // 对数据进行分类，返回的是三段数据，都是数组
     // 通过typeId来判断是什么类型
     const tasks = allTasks?.filter(task => task.kanbanId === kanban.id)
+    
     return <Container ref={ref} {...props} >
         <Row between={true}>
             <h3>{kanban.name} </h3>

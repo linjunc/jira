@@ -7,7 +7,7 @@ import { useTask } from "utils/task";
 // import { useDebounce } from '../../utils/index';
 // 获取当前的项目id用来获取看板数据，返回id
 export const useProjectIdInUrl = () => {
-    const { pathname } = useLocation()
+    const { pathname } = useLocation()    
     // 返回的是一个数组
     const id = pathname.match(/projects\/(\d+)/)?.[1]
     return Number(id)
@@ -15,6 +15,7 @@ export const useProjectIdInUrl = () => {
 // 通过 id 获取项目信息
 export const useProjectInUrl = () => useProject(useProjectIdInUrl())
 // 看板搜索框的内容
+// 只获取当前项目的看板
 export const useKanbanSearchParams = () => ({ projectId: useProjectIdInUrl() })
 export const useKanbansQueryKey = () => ['kanbans', useKanbanSearchParams()]
 // 任务搜索框数据
